@@ -13,6 +13,7 @@ LIB = -L$(LIBFTPATH) -lft
 LIBNAME = $(LIBFTPATH)/libft.a
 
 SRC = 	$(SRCPATH)/main.c\
+        $(SRCPATH)/lex.c\
 
 
 OBJ = $(SRC:.c=.o)

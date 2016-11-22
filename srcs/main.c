@@ -1,7 +1,12 @@
-#include "libft.h"
+#include "lexer.h"
 
-int 	main()
+int 	main(int ac, char **av)
 {
-	ft_putstr("Hello World\n");
+	if (ac > 1)
+	{
+		lex(av[1]);
+	}
+	else
+		printf("Usage: [lexer string]\n");
 	return(0);
 }
