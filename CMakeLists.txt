@@ -3,6 +3,7 @@ project(lexer)
 
 include_directories(includes)
 add_subdirectory(libft)
+add_subdirectory(unit_test)
 
 set(SRCS
     srcs/main.c
