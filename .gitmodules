@@ -1,6 +1,0 @@
-[submodule "libft"]
-	path = libft
-	url = https://github.com/Hadouweb/libft.git
-[submodule "unit_test"]
-	path = unit_test
-	url = https://github.com/Hadouweb/unit_test_clion_init.git
