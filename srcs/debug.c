@@ -44,7 +44,7 @@ void	debug_print_lst_token(void *content)
 	t_token		*token;
 
 	token = (t_token*)content;
-	printf("[%s]\n", token->beg);
-	printf("[%s]\n", token->end);
-	printf("[%u]\n", token->tk);
+	printf("\nbeg:\t[%s]\n", token->beg);
+	printf("end:\t[%s]\n", token->end);
+	printf("tk:\t[%u]\n", token->tk);
 }

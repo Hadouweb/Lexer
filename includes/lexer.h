@@ -39,6 +39,7 @@ typedef struct 		s_lex
 	t_token			*token;
 	unsigned int	ntoken;
 	t_listd			*lst_token;
+	unsigned int	(*token_func[TK_COUNT])(unsigned int, unsigned int);
 }					t_lex;
 
 void	lex(char *str);
