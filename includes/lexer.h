@@ -18,9 +18,11 @@
 
 enum	e_tk
 {
-	TK_BEG,
+	TK_NAME,
 	TK_SPC,
 	TK_COUNT,
+	TK_BEG,
+	TK_END,
 };
 
 enum	e_sts
@@ -28,6 +30,13 @@ enum	e_sts
 	STS_ACCEPT,
 	STS_REJECT,
 	STS_HUNGRY,
+};
+
+enum	e_lex
+{
+	LEX_OK,
+	LEX_NOMEM,
+	LEX_UNKNOWN_TOKEN,
 };
 
 typedef struct		s_token

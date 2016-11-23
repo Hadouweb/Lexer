@@ -61,7 +61,19 @@ enum e_tk		end_substr(t_lex *lex)
 	return (accepted_token);
 }
 
-void			main_loop_lex(t_lex *lex)
+enum e_lex		last_substr(t_lex *lex)
+{
+	int 	accepted_token;
+
+	accepted_token = end_substr(lex);
+	push_token(lex, accepted_token);
+	if (accepted_token == TK_COUNT)
+		return (LEX_UNKNOWN_TOKEN);
+	push_token(lex, TK_END);
+	return (LEX_OK);
+}
+
+enum e_lex		main_loop_lex(t_lex *lex)
 {
 	int 	tk_find;
 	int 	accepted_token;
@@ -77,10 +89,14 @@ void			main_loop_lex(t_lex *lex)
 			push_token(lex, accepted_token);
 			if (accepted_token == TK_COUNT)
 			{
+				((t_token*)lex->lst_token->end)->end++;
+				return (LEX_UNKNOWN_TOKEN);
 			}
+			lex->nbeg = lex->nend;
 		}
 		lex->nend++;
 	}
+	return (last_substr(lex));
 }
 
 void			lex(char *str)
