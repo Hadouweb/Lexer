@@ -14,6 +14,7 @@ LIBNAME = $(LIBFTPATH)/libft.a
 
 SRC = 	$(SRCPATH)/main.c\
         $(SRCPATH)/lex.c\
+        $(SRCPATH)/debug.c\
 
 
 OBJ = $(SRC:.c=.o)
@@ -27,7 +28,7 @@ $(NAME): $(LIBNAME) $(OBJ)
 	@echo "\n\033[39mCompilation done.\033[0m"
 
 $(LIBNAME):
-	@make -C $(LIBFTPATH) -j 8
+	@make -C $(LIBFTPATH) -j8
 
 %.o: %.c
 	@$(CC) -o $@ -c $< $(HEADER)

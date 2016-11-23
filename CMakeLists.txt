@@ -8,6 +8,7 @@ add_subdirectory(unit_test)
 set(SRCS
     srcs/main.c
     srcs/lex.c
+    srcs/debug.c
     )
 
 set(HEADERS
