@@ -51,7 +51,7 @@ typedef struct		s_lex
 	unsigned int	state[TK_COUNT];
 	t_token			*token;
 	unsigned int	ntoken;
-	t_listd			*lst_token;
+	t_listd_info	*lst_token;
 	enum e_sts		(*token_func[TK_COUNT])(unsigned int, unsigned int);
 }					t_lex;
 
