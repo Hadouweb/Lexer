@@ -16,7 +16,10 @@ void			init_sts(t_status *status)
 void			init_token_func(t_lex *lex)
 {
 	lex->token_func[0] = tk_name;
-	lex->token_func[1] = tk_spc;
+	lex->token_func[1] = tk_nmbr;
+	lex->token_func[2] = tk_assn;
+	lex->token_func[3] = tk_wspc;
+	lex->token_func[4] = tk_scol;
 }
 
 void			init_lexer(t_lex *lex, char *str)

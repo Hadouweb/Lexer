@@ -18,6 +18,7 @@ SRC = 	$(SRCPATH)/main.c\
         $(SRCPATH)/token_func1.c\
         $(SRCPATH)/init_lex.c\
         $(SRCPATH)/util_lex.c\
+        $(SRCPATH)/main_loop_lex.c\
 
 
 OBJ = $(SRC:.c=.o)

@@ -12,6 +12,7 @@ set(SRCS
     srcs/token_func1.c
     srcs/init_lex.c
     srcs/util_lex.c
+    srcs/main_loop_lex.c
     )
 
 set(HEADERS
