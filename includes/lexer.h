@@ -47,7 +47,6 @@ typedef struct		s_lex
 {
 	char			*nbeg;
 	char			*nend;
-	int				accepted_token;
 	t_status		status[TK_COUNT];
 	unsigned int	state[TK_COUNT];
 	t_token			*token;

@@ -12,7 +12,7 @@
 
 #include "lexer.h"
 
-void			update_status(t_lex *lex)
+int				find_token_substr(t_lex *lex)
 {
 	int		i;
 	int 	find;
@@ -27,19 +27,58 @@ void			update_status(t_lex *lex)
 			find = 1;
 		i++;
 	}
+	return (find);
+}
+
+void			next_char_substr(t_lex *lex)
+{
+	int 	i;
+
+	i = 0;
+	lex->nend++;
+	while (i < TK_COUNT)
+	{
+		lex->status[i].prev = lex->status[i].curr;
+		i++;
+	}
+}
+
+enum e_tk		end_substr(t_lex *lex)
+{
+	int 	i;
+	int 	accepted_token;
+
+	i = 0;
+	accepted_token = TK_COUNT;
+	while (i < TK_COUNT)
+	{
+		if (lex->status[i].prev == STS_ACCEPT)
+			accepted_token = i;
+		lex->status[i].prev = STS_HUNGRY;
+		lex->status[i].curr = STS_REJECT;
+		i++;
+	}
+	return (accepted_token);
 }
 
 void			main_loop_lex(t_lex *lex)
 {
+	int 	tk_find;
+	int 	accepted_token;
+
 	while (*lex->nend)
 	{
-		update_status(lex);
-		/*
+		tk_find = find_token_substr(lex);
 		if (tk_find)
-			;//
+			next_char_substr(lex);
 		else
-			;//
-		*/
+		{
+			accepted_token = end_substr(lex);
+			push_token(lex, accepted_token);
+			if (accepted_token == TK_COUNT)
+			{
+			}
+		}
 		lex->nend++;
 	}
 }
