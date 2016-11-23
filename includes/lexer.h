@@ -86,5 +86,6 @@ void				next_char_substr(t_lex *lex);
 enum e_tk			end_substr(t_lex *lex);
 enum e_lex			last_substr(t_lex *lex);
 enum e_lex			main_loop_lex(t_lex *lex);
+const char* 		debug_get_token_name(enum e_tk tk);
 
 #endif

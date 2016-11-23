@@ -82,7 +82,6 @@ enum e_lex		main_loop_lex(t_lex *lex)
 			}
 			lex->nbeg = lex->nend;
 		}
-		lex->nend++;
 	}
 	return (last_substr(lex));
 }

@@ -16,34 +16,57 @@ enum e_sts		tk_name(char c, unsigned int *state)
 		else if ((*state = 0))
 			return (STS_REJECT);
 	}
-
 	return (STS_REJECT);
 }
 
 enum e_sts		tk_nmbr(char c, unsigned int *state)
 {
-	if (c + state)
+	if (state)
+		;
+	if (ft_isdigit(c))
 		return (STS_ACCEPT);
 	return (STS_REJECT);
 }
 
 enum e_sts		tk_assn(char c, unsigned int *state)
 {
-	if (c + state)
-		return (STS_ACCEPT);
+	if (*state == 0)
+	{
+		if (c == '=' && (*state = 1))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
 	return (STS_REJECT);
 }
 
 enum e_sts		tk_wspc(char c, unsigned int *state)
 {
-	if (c + state)
-		return (STS_ACCEPT);
+	if (*state == 0)
+	{
+		if ((c == ' ' || c == '\t') && (*state = 1))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
+	else if (*state == 1)
+	{
+		if ((c == ' ' || c == '\t'))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
 	return (STS_REJECT);
 }
 
 enum e_sts		tk_scol(char c, unsigned int *state)
 {
-	if (c + state)
-		return (STS_ACCEPT);
+	if (*state == 0)
+	{
+		if (c == ';' && (*state = 1))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
 	return (STS_REJECT);
 }

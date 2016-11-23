@@ -46,5 +46,20 @@ void	debug_print_lst_token(void *content)
 	token = (t_token*)content;
 	printf("\nbeg:\t[%s]\n", token->beg);
 	printf("end:\t[%s]\n", token->end);
-	printf("tk:\t[%u]\n", token->tk);
+	printf("tk:\t[%s]\n", debug_get_token_name(token->tk));
+}
+
+const char* debug_get_token_name(enum e_tk tk)
+{
+	switch (tk)
+	{
+		case TK_NAME: return "TK_NAME";
+		case TK_NMBR: return "TK_NMBR";
+		case TK_ASSN: return "TK_ASSN";
+		case TK_WSPC: return "TK_WSPC";
+		case TK_SCOL: return "TK_SCOL";
+		case TK_COUNT: return "TK_COUNT";
+		case TK_BEG: return "TK_BEG";
+		case TK_END: return "TK_END";
+	}
 }
