@@ -1,0 +1,6 @@
+[submodule "libft"]
+	path = libft
+	url = https://github.com/Hadouweb/libft.git
+[submodule "unit_test"]
+	path = unit_test
+	url = https://github.com/Hadouweb/test_lexer.git
