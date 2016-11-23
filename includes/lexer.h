@@ -22,5 +22,6 @@ enum {
 };
 
 void	lex(char *str);
+void	init_sts(t_status *statuses);
 
 #endif
