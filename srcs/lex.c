@@ -15,12 +15,16 @@
 void			update_status(t_lex *lex)
 {
 	int		i;
+	int 	find;
 
 	i = 0;
+	find = 0;
 	while (i < TK_COUNT)
 	{
 		if (lex->status[i].prev != STS_REJECT)
 			lex->status[i].curr = lex->token_func[i](*lex->nend, lex->state[i]);
+		if (lex->status[i].curr != STS_REJECT)
+			find = 1;
 		i++;
 	}
 }
@@ -30,6 +34,12 @@ void			main_loop_lex(t_lex *lex)
 	while (*lex->nend)
 	{
 		update_status(lex);
+		/*
+		if (tk_find)
+			;//
+		else
+			;//
+		*/
 		lex->nend++;
 	}
 }
