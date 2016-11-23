@@ -15,6 +15,9 @@ LIBNAME = $(LIBFTPATH)/libft.a
 SRC = 	$(SRCPATH)/main.c\
         $(SRCPATH)/lex.c\
         $(SRCPATH)/debug.c\
+        $(SRCPATH)/token_func1.c\
+        $(SRCPATH)/init_lex.c\
+        $(SRCPATH)/util_lex.c\
 
 
 OBJ = $(SRC:.c=.o)

@@ -9,6 +9,9 @@ set(SRCS
     srcs/main.c
     srcs/lex.c
     srcs/debug.c
+    srcs/token_func1.c
+    srcs/init_lex.c
+    srcs/util_lex.c
     )
 
 set(HEADERS

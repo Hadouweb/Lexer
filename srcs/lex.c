@@ -12,59 +12,6 @@
 
 #include "lexer.h"
 
-void			init_sts(t_status *status)
-{
-	int		i;
-
-	i = 0;
-	while (i < TK_COUNT)
-	{
-		status[i].prev = STS_HUNGRY;
-		status[i].curr = STS_REJECT;
-		i++;
-	}
-}
-
-void			init_token_func(t_lex *lex)
-{
-	lex->token_func[0] = tk_name;
-	lex->token_func[1] = tk_spc;
-}
-
-void			init_lexer(t_lex *lex, char *str)
-{
-	ft_bzero(lex, sizeof(t_lex));
-	init_sts(lex->status);
-	init_token_func(lex);
-	ft_memset(lex->state, 0, sizeof(unsigned int) * TK_COUNT);
-	lex->nbeg = str;
-	lex->nend = str;
-}
-
-void			push_token(t_lex *lex, unsigned int tk)
-{
-	t_token		token;
-
-	token.beg = ft_strdup(lex->nbeg);
-	token.end = ft_strdup(lex->nend);
-	token.tk = tk;
-	ft_lstd_pushback(&lex->lst_token, &token, sizeof(t_token));
-}
-
-unsigned int	tk_name(unsigned int c, unsigned int s)
-{
-	if (c + s)
-		return (1);
-	return (0);
-}
-
-unsigned int	tk_spc(unsigned int c, unsigned int s)
-{
-	if (c + s)
-		return (1);
-	return (0);
-}
-
 void			update_status(t_lex *lex)
 {
 	int		i;
