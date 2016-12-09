@@ -18,7 +18,8 @@ void			lex(char *str)
 
 	init_lexer(&lex, str);
 	push_token(&lex, TK_BEG);
-	main_loop_lex(&lex);
+	if (main_loop_lex(&lex) == LEX_UNKNOWN_TOKEN)
+		printf("LEX_UNKNOWN_TOKEN\n");
 	//debug_print_status(lex.status);
 	//debug_print_state(lex.state);
 	ft_lstd_print(lex.lst_token, debug_print_lst_token, 0);

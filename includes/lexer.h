@@ -16,10 +16,9 @@
 # include <stdio.h>
 # include "libft.h"
 
-/*enum	e_tk
+enum	e_tk
 {
 	TK_WORD,
-	TK_WSPC,		// ' '
 	TK_AND_IF,		// &&
 	TK_OR_IF,		// ||
 	TK_DLESS,		// <<
@@ -27,21 +26,11 @@
 	TK_LESSAND,		// <&
 	TK_GREATAND,	// >&
 	TK_LESSGREAT,	// <>
-	TK_DLESSDASH,	// <<-
 	TK_CLOBBER,		// >|
+	TK_WSPC,		// ' '
 	TK_PIPE,		// |
 	TK_SCOL,		// ;
 	TK_AND,			// &
-	TK_COUNT,
-	TK_BEG,
-	TK_END,
-};*/
-
-enum	e_tk
-{
-	TK_WORD,
-	TK_WSPC,		// ' '
-	TK_AND_IF,		// &&
 	TK_COUNT,
 	TK_BEG,
 	TK_END,
@@ -92,12 +81,22 @@ void				debug_print_status(t_status *status);
 void				debug_print_state(unsigned int *state);
 void				debug_print_lst_token(void *content);
 
+enum e_sts			tk_generic_1(char c, unsigned int *state, char *str);
 enum e_sts			tk_generic_2(char c, unsigned int *state, char *str);
 
-enum e_sts			tk_and_if(char c, unsigned int *state);
 enum e_sts			tk_word(char c, unsigned int *state);
 enum e_sts			tk_wspc(char c, unsigned int *state);
+enum e_sts			tk_pipe(char c, unsigned int *state);
 enum e_sts			tk_scol(char c, unsigned int *state);
+enum e_sts			tk_and(char c, unsigned int *state);
+enum e_sts			tk_and_if(char c, unsigned int *state);
+enum e_sts			tk_or_if(char c, unsigned int *state);
+enum e_sts			tk_dless(char c, unsigned int *state);
+enum e_sts			tk_dgreat(char c, unsigned int *state);
+enum e_sts			tk_lessand(char c, unsigned int *state);
+enum e_sts			tk_greatand(char c, unsigned int *state);
+enum e_sts			tk_lessgreat(char c, unsigned int *state);
+enum e_sts			tk_clobber(char c, unsigned int *state);
 
 void				init_sts(t_status *status);
 void				init_token_func(t_lex *lex);
