@@ -37,6 +37,25 @@ enum e_sts		tk_word(char c, unsigned int *state)
 	return (STS_REJECT);
 }
 
+enum e_sts		tk_opt(char c, unsigned int *state)
+{
+	if (*state == 0)
+	{
+		if (c == '-' && (*state = 1))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
+	else if (*state == 1)
+	{
+		if (ft_isalnum(c))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
+	return (STS_REJECT);
+}
+
 enum e_sts		tk_wspc(char c, unsigned int *state)
 {
 	if (*state == 0)
@@ -69,6 +88,16 @@ enum e_sts		tk_scol(char c, unsigned int *state)
 enum e_sts		tk_and(char c, unsigned int *state)
 {
 	return (tk_generic_1(c, state, "&"));
+}
+
+enum e_sts		tk_less(char c, unsigned int *state)
+{
+	return (tk_generic_1(c, state, "<"));
+}
+
+enum e_sts		tk_great(char c, unsigned int *state)
+{
+	return (tk_generic_1(c, state, ">"));
 }
 
 enum e_sts		tk_and_if(char c, unsigned int *state)

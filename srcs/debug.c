@@ -54,6 +54,7 @@ const char* debug_get_token_name(enum e_tk tk)
 	switch (tk)
 	{
 		case TK_WORD: return "TK_WORD";
+		case TK_OPT: return "TK_OPT";
 		case TK_WSPC: return "TK_WSPC";
 		case TK_AND_IF: return "TK_AND_IF";
 		case TK_OR_IF: return "TK_OR_IF";
@@ -66,6 +67,8 @@ const char* debug_get_token_name(enum e_tk tk)
 		case TK_PIPE: return "TK_PIPE";
 		case TK_SCOL: return "TK_SCOL";
 		case TK_AND: return "TK_AND";
+		case TK_LESS: return "TK_LESS";
+		case TK_GREAT: return "TK_GREAT";
 		case TK_COUNT: return "TK_COUNT";
 		case TK_BEG: return "TK_BEG";
 		case TK_END: return "TK_END";

@@ -13,12 +13,15 @@ LIB = -L$(LIBFTPATH) -lft
 LIBNAME = $(LIBFTPATH)/libft.a
 
 SRC = 	$(SRCPATH)/main.c\
-        $(SRCPATH)/lex.c\
+        $(SRCPATH)/lexer.c\
         $(SRCPATH)/debug.c\
         $(SRCPATH)/token_func1.c\
-        $(SRCPATH)/init_lex.c\
-        $(SRCPATH)/util_lex.c\
+        $(SRCPATH)/init_lexer.c\
+        $(SRCPATH)/util_lexer.c\
         $(SRCPATH)/main_loop_lex.c\
+        $(SRCPATH)/parser.c\
+        $(SRCPATH)/init_parser.c\
+        $(SRCPATH)/rule_func1.c\
 
 
 OBJ = $(SRC:.c=.o)

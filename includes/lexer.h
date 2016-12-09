@@ -19,6 +19,7 @@
 enum	e_tk
 {
 	TK_WORD,
+	TK_OPT,
 	TK_AND_IF,		// &&
 	TK_OR_IF,		// ||
 	TK_DLESS,		// <<
@@ -31,9 +32,20 @@ enum	e_tk
 	TK_PIPE,		// |
 	TK_SCOL,		// ;
 	TK_AND,			// &
+	TK_LESS,		// <
+	TK_GREAT,		// >
 	TK_COUNT,
 	TK_BEG,
 	TK_END,
+};
+
+enum	e_rule
+{
+	RULE_INSTR,
+	RULE_WORD,
+	RULE_OPT,
+	RULE_GREAT,		// >
+	RULE_COUNT,
 };
 
 enum	e_sts
@@ -75,7 +87,16 @@ typedef struct		s_lex
 	enum e_sts		(*token_func[TK_COUNT])(char, unsigned int*);
 }					t_lex;
 
-void				lex(char *str);
+#define RULE_COUNT 1
+
+typedef struct 		s_parse
+{
+	t_listd_info	*stack;
+	t_tree			*root;
+	int				(*rule_func[RULE_COUNT])(t_token *token_node);
+}					t_parse;
+
+t_listd_info		*lexer(char *str);
 void				init_sts(t_status *status);
 void				debug_print_status(t_status *status);
 void				debug_print_state(unsigned int *state);
@@ -85,6 +106,7 @@ enum e_sts			tk_generic_1(char c, unsigned int *state, char *str);
 enum e_sts			tk_generic_2(char c, unsigned int *state, char *str);
 
 enum e_sts			tk_word(char c, unsigned int *state);
+enum e_sts			tk_opt(char c, unsigned int *state);
 enum e_sts			tk_wspc(char c, unsigned int *state);
 enum e_sts			tk_pipe(char c, unsigned int *state);
 enum e_sts			tk_scol(char c, unsigned int *state);
@@ -97,6 +119,8 @@ enum e_sts			tk_lessand(char c, unsigned int *state);
 enum e_sts			tk_greatand(char c, unsigned int *state);
 enum e_sts			tk_lessgreat(char c, unsigned int *state);
 enum e_sts			tk_clobber(char c, unsigned int *state);
+enum e_sts			tk_less(char c, unsigned int *state);
+enum e_sts			tk_great(char c, unsigned int *state);
 
 void				init_sts(t_status *status);
 void				init_token_func(t_lex *lex);
@@ -108,5 +132,13 @@ enum e_tk			end_substr(t_lex *lex);
 enum e_lex			last_substr(t_lex *lex);
 enum e_lex			main_loop_lex(t_lex *lex);
 const char* 		debug_get_token_name(enum e_tk tk);
+
+
+t_tree			*parser(t_listd_info *lst);
+
+void			init_rule_func(t_parse *parse);
+void			init_parser(t_parse *parse);
+
+int 	rule_great(t_token *token_node);
 
 #endif

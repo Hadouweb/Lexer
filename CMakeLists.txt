@@ -7,12 +7,15 @@ add_subdirectory(unit_test)
 
 set(SRCS
     srcs/main.c
-    srcs/lex.c
+    srcs/lexer.c
     srcs/debug.c
     srcs/token_func1.c
-    srcs/init_lex.c
-    srcs/util_lex.c
+    srcs/init_lexer.c
+        srcs/util_lexer.c
     srcs/main_loop_lex.c
+    srcs/parser.c
+    srcs/init_parser.c
+    srcs/rule_func1.c
     )
 
 set(HEADERS
