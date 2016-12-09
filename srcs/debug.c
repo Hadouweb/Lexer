@@ -49,15 +49,37 @@ void	debug_print_lst_token(void *content)
 	printf("tk:\t[%s]\n", debug_get_token_name(token->tk));
 }
 
+/*const char* debug_get_token_name(enum e_tk tk)
+{
+	switch (tk)
+	{
+		case TK_WORD: return "TK_WORD";
+		case TK_WSPC: return "TK_WSPC";
+		case TK_AND_IF: return "TK_AND_IF";
+		case TK_OR_IF: return "TK_OR_IF";
+		case TK_DLESS: return "TK_DLESS";
+		case TK_DGREAT: return "TK_DGREAT";
+		case TK_LESSAND: return "TK_LESSAND";
+		case TK_GREATAND: return "TK_GREATAND";
+		case TK_LESSGREAT: return "TK_LESSGREAT";
+		case TK_DLESSDASH: return "TK_DLESSDASH";
+		case TK_CLOBBER: return "TK_CLOBBER";
+		case TK_PIPE: return "TK_PIPE";
+		case TK_SCOL: return "TK_SCOL";
+		case TK_AND: return "TK_AND";
+		case TK_COUNT: return "TK_COUNT";
+		case TK_BEG: return "TK_BEG";
+		case TK_END: return "TK_END";
+	}
+}*/
+
 const char* debug_get_token_name(enum e_tk tk)
 {
 	switch (tk)
 	{
-		case TK_NAME: return "TK_NAME";
-		case TK_NMBR: return "TK_NMBR";
-		case TK_ASSN: return "TK_ASSN";
+		case TK_WORD: return "TK_WORD";
 		case TK_WSPC: return "TK_WSPC";
-		case TK_SCOL: return "TK_SCOL";
+		case TK_AND_IF: return "TK_AND_IF";
 		case TK_COUNT: return "TK_COUNT";
 		case TK_BEG: return "TK_BEG";
 		case TK_END: return "TK_END";
