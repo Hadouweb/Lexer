@@ -59,7 +59,7 @@ enum e_lex		last_substr(t_lex *lex)
 	push_token(lex, accepted_token);
 	if (accepted_token == TK_COUNT)
 		return (LEX_UNKNOWN_TOKEN);
-	push_token(lex, TK_END);
+	//push_token(lex, TK_END);
 	return (LEX_OK);
 }
 

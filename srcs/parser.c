@@ -1,6 +1,6 @@
 #include "lexer.h"
 
-t_tree	*find_rule(t_parse *parse, t_listd *node)
+t_tree	*find_rule(t_parse *parse, t_listd **node)
 {
 	int		i;
 	t_tree	*root;
@@ -17,20 +17,48 @@ t_tree	*find_rule(t_parse *parse, t_listd *node)
 	return (root);
 }
 
+void	add_instr(t_parse *parse, t_tree **root)
+{
+	t_listd			*l;
+	t_tree_token	instr;
+
+	if (parse->stack && parse->stack->beg)
+	{
+		l = parse->stack->beg;
+		instr.str = ft_strdup(((t_tree_token*)l->content)->str);
+		l = l->next;
+		while (l)
+		{
+			instr.str = ft_strjoin_free_s1(instr.str, " ");
+			instr.str = ft_strjoin_free_s1(instr.str, ((t_tree_token*)l->content)->str);
+			l = l->next;
+		}
+		instr.tk = TK_STR;
+		ft_tree_add(*root, TREE_LEFT, &instr, sizeof(t_tree_token));
+	}
+	//clean_lst_token(parse->stack);
+	//parse->stack = NULL;
+}
+
 t_tree	*make_tree(t_parse *parse, t_listd_info *lst)
 {
 	t_listd		*l;
 	t_tree		*root;
+	t_tree		*tmp;
 
 	l = lst->beg;
 	root = NULL;
 	while (l)
 	{
-		root = find_rule(parse, l);
-		if (root != NULL)
-			return (root);
-		l = l->next;
+		tmp = find_rule(parse, &l);
+		if (tmp == NULL)
+			ft_lstd_pushback(&parse->stack, l->content, l->content_size);
+		else
+			root = tmp;
+		if (l)
+			l = l->next;
 	}
+	add_instr(parse, &root);
 	return (root);
 }
 

@@ -97,8 +97,9 @@ typedef struct		s_lex
 typedef struct 		s_parse
 {
 	t_listd_info	*lst_sub_tree;
+	t_listd_info	*stack;
 	t_tree			*root;
-	t_tree			*(*rule_func[RULE_COUNT])(t_listd *node);
+	t_tree			*(*rule_func[RULE_COUNT])(t_listd **node);
 }					t_parse;
 
 void				clean_lst_token(t_listd_info *token_lst);
@@ -150,6 +151,6 @@ t_tree				*parser(t_list *lst);
 void				init_rule_func(t_parse *parse);
 void				init_parser(t_parse *parse);
 
-t_tree				*rule_great(t_listd *node);
+t_tree				*rule_great(t_listd **node);
 
 #endif

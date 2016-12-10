@@ -31,7 +31,6 @@ void			filter_lexer_list(t_listd_info **lst, t_list **lst_tk_sep)
 	t_listd			*l;
 
 	l = (*lst)->beg;
-	l = l->next; // SKIP TK_BEG
 	while (l)
 	{
 		sub_lst = get_sub_list(&l);
