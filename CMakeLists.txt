@@ -11,11 +11,12 @@ set(SRCS
     srcs/debug.c
     srcs/token_func1.c
     srcs/init_lexer.c
-        srcs/util_lexer.c
+    srcs/util_lexer.c
     srcs/main_loop_lex.c
     srcs/parser.c
     srcs/init_parser.c
     srcs/rule_func1.c
+    srcs/util_free.c
     )
 
 set(HEADERS

@@ -15,33 +15,8 @@ int		match_rule(t_parse *parse, t_token *token_node)
 	return (0);
 }
 
-void	clean_stack(t_listd_info **stack)
+void	add_stack_on_left(t_parse *parse, t_tree *root)
 {
-	t_listd		*l;
-	t_listd		*tmp;
-
-	if ((*stack) == NULL)
-		return ;
-	l = (*stack)->beg;
-	while (l)
-	{
-		tmp = l;
-		l = l->next;
-		free(tmp);
-	}
-	*stack = NULL;
-}
-
-t_tree	*create_branch(t_parse *parse, t_token *token_node)
-{
-	if (parse)
-		;
-	printf("NICE I'M HERE %s [%s] [%s]\n", debug_get_token_name(token_node->tk), token_node->beg, token_node->end);
-
-	t_tree	*root;
-
-	root = ft_tree_new(token_node, sizeof(t_token));
-
 	t_listd	*l;
 	t_tree	*cur_node;
 
@@ -55,46 +30,66 @@ t_tree	*create_branch(t_parse *parse, t_token *token_node)
 			l = l->next;
 		}
 	}
-	clean_stack(&parse->stack);
+	clean_lst_token(parse->stack);
+}
 
-	ft_tree_preorder(root, debug_print_token_node);
+t_tree	*create_branch(t_parse *parse, t_token *token_node)
+{
+	//printf("NICE I'M HERE %s [%s] [%s]\n", debug_get_token_name(token_node->tk), token_node->beg, token_node->end);
+	t_tree	*root;
+	char 	*str;
+
+	str = ft_strndup(token_node->beg,
+	ft_strlen(token_node->beg) - ft_strlen(token_node->end));
+	root = ft_tree_new(str, ft_strlen(str));
+	ft_strdel(&str);
+
+	add_stack_on_left(parse, root);
+
+	ft_lstd_pushback(&parse->lst_sub_tree, root, sizeof(t_tree));
+	// FREE
 	return (root);
 }
 
-void	add_on_stack(t_parse *parse, t_listd *node)
+void	add_on_stack(t_parse *parse, t_token *token_node)
 {
-	if (parse && node)
-		;
-	ft_lstd_pushback(&parse->stack, node->content, node->content_size);
+	char 	*str;
+
+	str = ft_strndup(token_node->beg,
+	ft_strlen(token_node->beg) - ft_strlen(token_node->end));
+	ft_lstd_pushback(&parse->stack, str, ft_strlen(str));
+	ft_strdel(&str);
 }
 
 void	parse_each_node(t_listd_info *lst, t_parse *parse)
 {
 	t_listd		*l;
-	t_tree		*sub_tree;
 
 	l = lst->beg;
 	l = l->next; // Skip beg
 	while (l)
 	{
-		sub_tree = NULL;
 		if (match_rule(parse, (t_token*)l->content))
-			sub_tree = create_branch(parse, (t_token*)l->content);
+			create_branch(parse, (t_token *) l->content);
 		else
-			add_on_stack(parse, l);
-		//printf("STACK\n");
-		//ft_lstd_print(parse->stack, debug_print_lst_token, 0);
+			add_on_stack(parse, (t_token*)l->content);
 		l = l->next;
 	}
 }
 
-t_tree	*parser(t_listd_info *lst)
+t_tree	*parser(t_list *lst)
 {
 	t_parse		parse;
 
 	init_parser(&parse);
-	ft_lstd_print(lst, debug_print_lst_token, 0);
-	parse_each_node(lst, &parse);
+	if (lst)
+	{
+		debug_print_lst_sep(lst);
+		//ft_lstd_print(lst, debug_print_lst_token, 0);
+	}
+	//parse_each_node(lst, &parse);
+
+	//debug_all_sub_tree(parse.lst_sub_tree);
 
 	return (parse.root);
 }

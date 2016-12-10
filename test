@@ -1,28 +1,12 @@
-..:
-total 8
-drwxr-xr-x  16 nle-bret  2015_paris  544 Dec  9 23:04 Lexer
-drwxr-xr-x   9 nle-bret  2015_paris  306 Nov 29 09:09 fantastic
--rw-r--r--   1 nle-bret  2015_paris  138 Nov 22 12:31 main.c
-drwxr-xr-x  14 nle-bret  2015_paris  476 Nov 25 02:17 minishell
-drwxr-xr-x  29 nle-bret  2015_paris  986 Dec  9 22:38 mysh
-drwxr-xr-x  14 nle-bret  2015_paris  476 Nov 25 18:35 simple-interpreter
-drwxr-xr-x   6 nle-bret  2015_paris  204 Nov 22 12:38 test
-drwxr-xr-x   7 nle-bret  2015_paris  238 Nov 23 09:36 test_lexer
-
-../..:
-total 8
-drwx------   6 nle-bret  2015_paris   204 Oct 19 02:15 Applications
-drwxr-xr-x   3 nle-bret  2015_paris   102 Oct 22 09:22 ClionProjects
-drwx------  19 nle-bret  2015_paris   646 Nov 23 15:49 Desktop
-drwx------   3 nle-bret  2015_paris   102 Oct 19 02:16 Documents
-drwx------  25 nle-bret  2015_paris   850 Nov 20 06:11 Downloads
-drwxr-xr-x   3 nle-bret  2015_paris   102 Nov  1 17:23 IdeaProjects
-drwx------  40 nle-bret  2015_paris  1360 Dec  9 21:55 Library
-drwx------   8 nle-bret  2015_paris   272 Oct 19 02:17 Movies
-drwx------   3 nle-bret  2015_paris   102 Oct 19 02:17 Music
-drwxr-xr-x   4 nle-bret  2015_paris   136 Oct 19 02:17 New Unity Project
-drwx------   4 nle-bret  2015_paris   136 Nov  9 00:32 Pictures
-lrwxr-xr-x   1 nle-bret  2015_paris    34 Nov 18 06:56 goinfre -> /Volumes/Storage/goinfre/nle-bret/
-drwxr-xr-x   6 nle-bret  2015_paris   204 Oct 19 02:17 http
-drwxr-xr-x  11 nle-bret  2015_paris   374 Nov 26 18:25 projects
--rw-r--r--   1 nle-bret  2015_paris     0 Nov 25 01:46 test
+total 88
+-rw-r--r--   1 nle-bret  2015_paris    468 Dec 10 00:00 CMakeLists.txt
+-rw-r--r--   1 nle-bret  2015_paris    962 Dec 10 00:00 Makefile
+-rw-r--r--   1 nle-bret  2015_paris      9 Nov 23 09:39 auteur
+-rw-r--r--   1 nle-bret  2015_paris     81 Dec 10 03:13 cat
+-rw-r--r--   1 nle-bret  2015_paris      0 Dec  9 05:05 echo
+drwxr-xr-x   3 nle-bret  2015_paris    102 Dec 10 02:45 includes
+-rwxr-xr-x   1 nle-bret  2015_paris  24904 Dec 10 03:17 lexer
+drwxr-xr-x  13 nle-bret  2015_paris    442 Dec 10 02:46 libft
+drwxr-xr-x  22 nle-bret  2015_paris    748 Dec 10 03:17 srcs
+-rw-r--r--   1 nle-bret  2015_paris      0 Dec 10 03:18 test
+drwxr-xr-x   7 nle-bret  2015_paris    238 Nov 23 09:39 unit_test

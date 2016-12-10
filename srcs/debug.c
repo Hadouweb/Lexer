@@ -49,23 +49,57 @@ void	debug_print_lst_token(void *content)
 	printf("tk:\t[%s]\n", debug_get_token_name(token->tk));
 }
 
+void	debug_print_lst_sep(t_list *l)
+{
+	while (l)
+	{
+		ft_putstr("------------------- CMD -------------------\n");
+		ft_lstd_print((t_listd_info*)l->content, NULL, 0);
+		l = l->next;
+	}
+}
+
+
 void	debug_print_token_node(t_tree *node)
 {
-	ft_putstr("\033[033mcontent : \033[0m[");
 	if (node->parent)
 	{
-		ft_putstr("\033[036m -- parent : \033[0m[");
-		ft_putstr(debug_get_token_name(((t_token*)node->parent->content)->tk));
+		ft_putstr("\033[036mparent : \033[0m[");
+		ft_putstr((char*)node->parent->content);
+		ft_putstr("]");
+		ft_putchar('\n');
+	}
+	ft_putstr("\033[033mcontent : \033[0m[");
+	ft_putstr((char*)node->content);
+	ft_putstr("]\t\033[035mdepth : \033[0m[");
+	ft_putnbr(node->depth);
+	ft_putstr("]");
+	if (node->parent)
+	{
 		if (node->parent->left == node)
 			ft_putstr(" LEFT");
 		if (node->parent->right == node)
 			ft_putstr(" RIGHT");
-		ft_putstr("]");
 	}
-	debug_print_lst_token(node->content);
-	ft_putstr("]\t\033[035mdepth : \033[0m[");
-	ft_putnbr(node->depth);
-	ft_putstr("]\n");
+	ft_putstr("\n\n");
+}
+
+void	debug_all_sub_tree(t_listd_info *lst)
+{
+	t_listd		*l;
+	t_tree		*sub_tree;
+
+	if (lst)
+	{
+		l = lst->beg;
+		while (l)
+		{
+			sub_tree = (t_tree*)l->content;
+			ft_putstr("___________________________________\n");
+			ft_tree_preorder(sub_tree, debug_print_token_node);
+			l = l->next;
+		}
+	}
 }
 
 const char* debug_get_token_name(enum e_tk tk)
