@@ -101,6 +101,7 @@ void				init_sts(t_status *status);
 void				debug_print_status(t_status *status);
 void				debug_print_state(unsigned int *state);
 void				debug_print_lst_token(void *content);
+void				debug_print_token_node(t_tree *node);
 
 enum e_sts			tk_generic_1(char c, unsigned int *state, char *str);
 enum e_sts			tk_generic_2(char c, unsigned int *state, char *str);

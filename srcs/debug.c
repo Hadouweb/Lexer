@@ -49,6 +49,25 @@ void	debug_print_lst_token(void *content)
 	printf("tk:\t[%s]\n", debug_get_token_name(token->tk));
 }
 
+void	debug_print_token_node(t_tree *node)
+{
+	ft_putstr("\033[033mcontent : \033[0m[");
+	if (node->parent)
+	{
+		ft_putstr("\033[036m -- parent : \033[0m[");
+		ft_putstr(debug_get_token_name(((t_token*)node->parent->content)->tk));
+		if (node->parent->left == node)
+			ft_putstr(" LEFT");
+		if (node->parent->right == node)
+			ft_putstr(" RIGHT");
+		ft_putstr("]");
+	}
+	debug_print_lst_token(node->content);
+	ft_putstr("]\t\033[035mdepth : \033[0m[");
+	ft_putnbr(node->depth);
+	ft_putstr("]\n");
+}
+
 const char* debug_get_token_name(enum e_tk tk)
 {
 	switch (tk)
