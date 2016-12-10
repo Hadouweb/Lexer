@@ -39,16 +39,6 @@ void	debug_print_state(unsigned int *state)
 	}
 }
 
-void	debug_print_lst_token(void *content)
-{
-	t_token		*token;
-
-	token = (t_token*)content;
-	printf("\nbeg:\t[%s]\n", token->beg);
-	printf("end:\t[%s]\n", token->end);
-	printf("tk:\t[%s]\n", debug_get_token_name(token->tk));
-}
-
 void	debug_print_lst_sep(t_list *l)
 {
 	while (l)
@@ -61,9 +51,9 @@ void	debug_print_lst_sep(t_list *l)
 
 void	debug_tree_token(void *content)
 {
-	t_tree_token	*tree_token;
+	t_token	*tree_token;
 
-	tree_token = (t_tree_token*)content;
+	tree_token = (t_token*)content;
 	ft_putstr(" [");
 	ft_putstr(tree_token->str);
 	ft_putstr("] \t\t");
@@ -76,7 +66,7 @@ void	debug_print_token_node(t_tree *node)
 	if (node->parent)
 	{
 		ft_putstr("\033[036mparent : \033[0m[");
-		ft_putstr(((t_tree_token*)node->parent->content)->str);
+		ft_putstr(((t_token*)node->parent->content)->str);
 		ft_putstr("]");
 		ft_putchar('\n');
 	}

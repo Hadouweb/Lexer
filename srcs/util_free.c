@@ -1,17 +1,16 @@
 #include "lexer.h"
 
-void	clean_lst_token(t_listd_info *token_lst)
+void	clean_lst_token(t_list *l)
 {
-	t_listd		*l;
-	t_listd		*tmp;
+	t_list		*tmp;
+	t_token		*token;
 
-	if (token_lst == NULL)
-		return ;
-	l = token_lst->beg;
 	while (l)
 	{
 		tmp = l;
+		token = (t_token*)l->content;
 		l = l->next;
+		ft_strdel(&token->str);
 		free(tmp);
 	}
 }

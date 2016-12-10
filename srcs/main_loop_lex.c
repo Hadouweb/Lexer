@@ -79,7 +79,6 @@ enum e_lex		main_loop_lex(t_lex *lex)
 			push_token(lex, accepted_token);
 			if (accepted_token == TK_COUNT)
 			{
-				((t_token*)lex->lst_token->end)->end++;
 				return (LEX_UNKNOWN_TOKEN);
 			}
 			lex->nbeg = lex->nend;

@@ -2,10 +2,11 @@
 
 void			push_token(t_lex *lex, enum e_tk tk)
 {
-	t_token		token;
+	t_token				token;
+	unsigned int		size;
 
-	token.beg = ft_strdup(lex->nbeg);
-	token.end = ft_strdup(lex->nend);
+	size = ft_strlen(lex->nbeg) - ft_strlen(lex->nend);
+	token.str = ft_strndup(lex->nbeg, size);
 	token.tk = tk;
-	ft_lstd_pushback(&lex->lst_token, &token, sizeof(t_token));
+	ft_lstpush_back(&lex->lst_token, &token, sizeof(t_token));
 }

@@ -62,18 +62,11 @@ enum	e_lex
 	LEX_UNKNOWN_TOKEN,
 };
 
-typedef struct		s_token
-{
-	char			*beg;
-	char			*end;
-	enum e_tk		tk;
-}					t_token;
-
 typedef struct 		s_tree_token
 {
 	char 			*str;
 	enum e_tk		tk;
-}					t_tree_token;
+}					t_token;
 
 typedef struct		s_status
 {
@@ -88,7 +81,7 @@ typedef struct		s_lex
 	t_status		status[TK_COUNT];
 	unsigned int	state[TK_COUNT];
 	unsigned int	str_token;
-	t_listd_info	*lst_token;
+	t_list			*lst_token;
 	enum e_sts		(*token_func[TK_COUNT])(char, unsigned int*);
 }					t_lex;
 
@@ -96,15 +89,15 @@ typedef struct		s_lex
 
 typedef struct 		s_parse
 {
-	t_listd_info	*lst_sub_tree;
+	t_list			*lst_tree;
 	t_listd_info	*stack;
 	t_tree			*root;
 	t_tree			*(*rule_func[RULE_COUNT])(t_listd **node);
 }					t_parse;
 
-void				clean_lst_token(t_listd_info *token_lst);
+void				clean_lst_token(t_list *l);
 
-t_listd_info		*lexer(char *str);
+t_list				*lexer(char *str);
 void				init_sts(t_status *status);
 void				debug_print_status(t_status *status);
 void				debug_print_state(unsigned int *state);
@@ -146,7 +139,7 @@ enum e_lex			main_loop_lex(t_lex *lex);
 const char* 		debug_get_token_name(enum e_tk tk);
 
 
-t_tree				*parser(t_list *lst);
+t_list				*parser(t_list *lst);
 
 void				init_rule_func(t_parse *parse);
 void				init_parser(t_parse *parse);

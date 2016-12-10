@@ -20,21 +20,21 @@ t_tree	*find_rule(t_parse *parse, t_listd **node)
 void	add_instr(t_parse *parse, t_tree **root)
 {
 	t_listd			*l;
-	t_tree_token	instr;
+	t_token	instr;
 
 	if (parse->stack && parse->stack->beg)
 	{
 		l = parse->stack->beg;
-		instr.str = ft_strdup(((t_tree_token*)l->content)->str);
+		instr.str = ft_strdup(((t_token*)l->content)->str);
 		l = l->next;
 		while (l)
 		{
 			instr.str = ft_strjoin_free_s1(instr.str, " ");
-			instr.str = ft_strjoin_free_s1(instr.str, ((t_tree_token*)l->content)->str);
+			instr.str = ft_strjoin_free_s1(instr.str, ((t_token*)l->content)->str);
 			l = l->next;
 		}
 		instr.tk = TK_STR;
-		ft_tree_add(*root, TREE_LEFT, &instr, sizeof(t_tree_token));
+		ft_tree_add(*root, TREE_LEFT, &instr, sizeof(t_token));
 	}
 	//clean_lst_token(parse->stack);
 	//parse->stack = NULL;
@@ -69,13 +69,14 @@ void	for_each_cmd(t_parse *parse, t_list *l)
 	while (l)
 	{
 		root = make_tree(parse, (t_listd_info*)l->content);
+		ft_lstpush_back(&parse->lst_tree, &root, sizeof(t_tree));
 		l = l->next;
 	}
 	ft_putstr("------------------- AST -------------------\n");
 	ft_tree_preorder(root, debug_print_token_node);
 }
 
-t_tree	*parser(t_list *lst)
+t_list	*parser(t_list *lst)
 {
 	t_parse		parse;
 
@@ -87,6 +88,5 @@ t_tree	*parser(t_list *lst)
 	}
 
 	//debug_all_sub_tree(parse.lst_sub_tree);
-
-	return (parse.root);
+	return (parse.lst_tree);
 }
