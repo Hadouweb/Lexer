@@ -13,6 +13,8 @@ int				find_token_substr(t_lex *lex)
 			lex->status[i].curr = lex->token_func[i](*lex->nend, &lex->state[i]);
 		if (lex->status[i].curr != STS_REJECT)
 			find = 1;
+		if (find)
+			lex->str_token = 1;
 		i++;
 	}
 	return (find);

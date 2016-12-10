@@ -18,7 +18,6 @@
 
 enum	e_tk
 {
-	TK_WORD,
 	TK_OPT,
 	TK_AND_IF,		// &&
 	TK_OR_IF,		// ||
@@ -34,6 +33,7 @@ enum	e_tk
 	TK_AND,			// &
 	TK_LESS,		// <
 	TK_GREAT,		// >
+	TK_STR,
 	TK_COUNT,
 	TK_BEG,
 	TK_END,
@@ -69,6 +69,12 @@ typedef struct		s_token
 	enum e_tk		tk;
 }					t_token;
 
+typedef struct 		s_tree_token
+{
+	char 			*str;
+	enum e_tk		tk;
+}					t_tree_token;
+
 typedef struct		s_status
 {
 	unsigned int	prev;
@@ -81,8 +87,7 @@ typedef struct		s_lex
 	char			*nend;
 	t_status		status[TK_COUNT];
 	unsigned int	state[TK_COUNT];
-	t_token			*token;
-	unsigned int	ntoken;
+	unsigned int	str_token;
 	t_listd_info	*lst_token;
 	enum e_sts		(*token_func[TK_COUNT])(char, unsigned int*);
 }					t_lex;
@@ -91,10 +96,9 @@ typedef struct		s_lex
 
 typedef struct 		s_parse
 {
-	t_listd_info	*stack;
 	t_listd_info	*lst_sub_tree;
 	t_tree			*root;
-	int				(*rule_func[RULE_COUNT])(t_token *token_node);
+	t_tree			*(*rule_func[RULE_COUNT])(t_listd *node);
 }					t_parse;
 
 void				clean_lst_token(t_listd_info *token_lst);
@@ -107,11 +111,12 @@ void				debug_print_lst_token(void *content);
 void				debug_print_token_node(t_tree *node);
 void				debug_all_sub_tree(t_listd_info *lst);
 void				debug_print_lst_sep(t_list *l);
+void				debug_tree_token(void *content);
 
 enum e_sts			tk_generic_1(char c, unsigned int *state, char *str);
 enum e_sts			tk_generic_2(char c, unsigned int *state, char *str);
 
-enum e_sts			tk_word(char c, unsigned int *state);
+enum e_sts			tk_str(char c, unsigned int *state);
 enum e_sts			tk_opt(char c, unsigned int *state);
 enum e_sts			tk_wspc(char c, unsigned int *state);
 enum e_sts			tk_pipe(char c, unsigned int *state);
@@ -145,6 +150,6 @@ t_tree				*parser(t_list *lst);
 void				init_rule_func(t_parse *parse);
 void				init_parser(t_parse *parse);
 
-int 				rule_great(t_token *token_node);
+t_tree				*rule_great(t_listd *node);
 
 #endif

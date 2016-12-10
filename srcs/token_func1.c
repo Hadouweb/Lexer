@@ -18,22 +18,18 @@ enum e_sts		tk_generic_2(char c, unsigned int *state, char *str)
 	return (STS_REJECT);
 }
 
-enum e_sts		tk_word(char c, unsigned int *state)
+enum e_sts		tk_str(char c, unsigned int *state)
 {
-	if (*state == 0)
-	{
-		if ((ft_isalpha(c) || c == '_') && (*state = 1))
-			return (STS_ACCEPT);
-		else if ((*state = 0))
-			return (STS_REJECT);
-	}
-	else if (*state == 1)
-	{
-		if ((ft_isalnum(c)  || c == '_'))
-			return (STS_ACCEPT);
-		else if ((*state = 0))
-			return (STS_REJECT);
-	}
+	if (*state)
+		;
+	if (ft_isprint(c) &&
+		c != '&' &&
+		c != '|' &&
+		c != '<' &&
+		c != '>' &&
+		c != ' ' &&
+		c != ';')
+		return (STS_ACCEPT);
 	return (STS_REJECT);
 }
 

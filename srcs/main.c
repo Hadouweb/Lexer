@@ -4,8 +4,8 @@ t_listd_info	*get_sub_list(t_listd **l)
 {
 	t_listd_info	*sub_list;
 	t_token			*token;
-	char 			*str;
 	unsigned int	size;
+	t_tree_token	tree_token;
 
 	sub_list = NULL;
 	while (*l)
@@ -16,9 +16,9 @@ t_listd_info	*get_sub_list(t_listd **l)
 		if (token->tk != TK_WSPC && token->tk != TK_END)
 		{
 			size = ft_strlen(token->beg) - ft_strlen(token->end);
-			str = ft_strndup(token->beg, size);
-			ft_lstd_pushback(&sub_list, str, size);
-			ft_strdel(&str);
+			tree_token.str = ft_strndup(token->beg, size);;
+			tree_token.tk = token->tk;
+			ft_lstd_pushback(&sub_list, &tree_token, sizeof(t_tree_token));
 		}
 		*l = (*l)->next;
 	}

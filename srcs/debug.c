@@ -54,23 +54,34 @@ void	debug_print_lst_sep(t_list *l)
 	while (l)
 	{
 		ft_putstr("------------------- CMD -------------------\n");
-		ft_lstd_print((t_listd_info*)l->content, NULL, 0);
+		ft_lstd_print((t_listd_info*)l->content, debug_tree_token, 0);
 		l = l->next;
 	}
 }
 
+void	debug_tree_token(void *content)
+{
+	t_tree_token	*tree_token;
+
+	tree_token = (t_tree_token*)content;
+	ft_putstr(" [");
+	ft_putstr(tree_token->str);
+	ft_putstr("] \t\t");
+	ft_putstr(debug_get_token_name(tree_token->tk));
+	ft_putstr(" ");
+}
 
 void	debug_print_token_node(t_tree *node)
 {
 	if (node->parent)
 	{
 		ft_putstr("\033[036mparent : \033[0m[");
-		ft_putstr((char*)node->parent->content);
+		ft_putstr(((t_tree_token*)node->parent->content)->str);
 		ft_putstr("]");
 		ft_putchar('\n');
 	}
 	ft_putstr("\033[033mcontent : \033[0m[");
-	ft_putstr((char*)node->content);
+	debug_tree_token(node->content);
 	ft_putstr("]\t\033[035mdepth : \033[0m[");
 	ft_putnbr(node->depth);
 	ft_putstr("]");
@@ -106,7 +117,7 @@ const char* debug_get_token_name(enum e_tk tk)
 {
 	switch (tk)
 	{
-		case TK_WORD: return "TK_WORD";
+		case TK_STR: return "TK_STR";
 		case TK_OPT: return "TK_OPT";
 		case TK_WSPC: return "TK_WSPC";
 		case TK_AND_IF: return "TK_AND_IF";

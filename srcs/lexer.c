@@ -22,6 +22,6 @@ t_listd_info	*lexer(char *str)
 		printf("LEX_UNKNOWN_TOKEN\n");
 	//debug_print_status(lex.status);
 	//debug_print_state(lex.state);
-	//ft_lstd_print(lex.lst_token, debug_print_lst_token, 0);
+	ft_lstd_print(lex.lst_token, debug_print_lst_token, 0);
 	return (lex.lst_token);
 }
