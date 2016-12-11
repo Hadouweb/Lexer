@@ -10,20 +10,20 @@ t_listd_info	*get_sub_list(t_list **l)
 	while (*l)
 	{
 		token = (t_token *) (*l)->content;
-		if (token->tk == TK_SCOL || token->tk == TK_AND)
+		if (token->tk == TK_SCOL || token->tk == TK_AND_IF)
 			return (sub_list);
 		if (token->tk != TK_WSPC && token->tk != TK_END)
 		{
 			new_token.str = ft_strdup(token->str);
 			new_token.tk = token->tk;
-			ft_lstd_pushback(&sub_list, &new_token, sizeof(t_token));
+			ft_lstd_pushback_alloc(&sub_list, &new_token, sizeof(t_token));
 		}
 		*l = (*l)->next;
 	}
 	return (sub_list);
 }
 
-void			filter_lexer_list(t_list **lst, t_list **lst_tk_sep)
+void	filter_lexer_list(t_list **lst, t_list **lst_tk_sep)
 {
 	t_listd_info	*sub_lst;
 	t_list			*l;
@@ -37,7 +37,7 @@ void			filter_lexer_list(t_list **lst, t_list **lst_tk_sep)
 		if (l)
 			l = l->next;
 	}
-	clean_lst_token(*lst);
+	clean_lst_token(lst);
 }
 
 void	clean_listd_info(t_listd_info *listd)
@@ -53,6 +53,7 @@ void	clean_listd_info(t_listd_info *listd)
 		tmp = l;
 		l = l->next;
 		ft_strdel(&token->str);
+		free(tmp->content);
 		free(tmp);
 	}
 }
@@ -68,41 +69,36 @@ void	clean_sub_lst_token(t_list **lst)
 		tmp = l;
 		l = l->next;
 		clean_listd_info((t_listd_info*)tmp->content);
+		free(tmp->content);
 		free(tmp);
 	}
 }
 
-void	clean_lst_tree(t_list **lst)
+void			debug_print_lst_tree(t_list *l)
 {
-	t_list	*tmp;
-	t_list	*l;
-
-	l = *lst;
 	while (l)
 	{
-		tmp = l;
+		ft_putstr("------------------- AST -------------------\n");
+		ft_tree_preorder((t_tree*)l->content, debug_print_token_node);
 		l = l->next;
-		free(tmp);
 	}
-	*lst = NULL;
 }
 
 int 			main(int ac, char **av)
 {
-	t_list			*lst_token;
 	t_list			*lst_token_separate;
-	t_list			*lst_tree;
+	t_parse			parse;
+	t_lex			lex;
 
-	lst_token = NULL;
 	lst_token_separate = NULL;
-	lst_tree = NULL;
 	if (ac > 1)
 	{
-		lst_token = lexer(av[1]);
-		filter_lexer_list(&lst_token, &lst_token_separate);
-		lst_tree = parser(lst_token_separate);
+		lexer(&lex, av[1]);
+		filter_lexer_list(&lex.lst_token, &lst_token_separate);
+		parser(&parse, lst_token_separate);
+		debug_print_lst_tree(parse.lst_tree);
+		clean_lst_tree(&parse.lst_tree);
 		clean_sub_lst_token(&lst_token_separate);
-		clean_lst_tree(&lst_tree);
 	}
 	else
 		printf("Usage: [lexer string]\n");

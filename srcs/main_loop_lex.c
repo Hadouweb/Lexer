@@ -13,8 +13,6 @@ int				find_token_substr(t_lex *lex)
 			lex->status[i].curr = lex->token_func[i](*lex->nend, &lex->state[i]);
 		if (lex->status[i].curr != STS_REJECT)
 			find = 1;
-		if (find)
-			lex->str_token = 1;
 		i++;
 	}
 	return (find);
@@ -59,7 +57,6 @@ enum e_lex		last_substr(t_lex *lex)
 	push_token(lex, accepted_token);
 	if (accepted_token == TK_COUNT)
 		return (LEX_UNKNOWN_TOKEN);
-	//push_token(lex, TK_END);
 	return (LEX_OK);
 }
 
@@ -68,19 +65,21 @@ enum e_lex		main_loop_lex(t_lex *lex)
 	int 	tk_find;
 	int 	accepted_token;
 
+	tk_find = 0;
+	accepted_token = 0;
+	if (tk_find && accepted_token)
+		;
 	while (*lex->nend)
 	{
 		tk_find = find_token_substr(lex);
 		if (tk_find)
-			next_char_substr(lex);
+		 	next_char_substr(lex);
 		else
 		{
 			accepted_token = end_substr(lex);
 			push_token(lex, accepted_token);
 			if (accepted_token == TK_COUNT)
-			{
 				return (LEX_UNKNOWN_TOKEN);
-			}
 			lex->nbeg = lex->nend;
 		}
 	}

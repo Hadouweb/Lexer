@@ -44,12 +44,12 @@ void	debug_print_lst_sep(t_list *l)
 	while (l)
 	{
 		ft_putstr("------------------- CMD -------------------\n");
-		ft_lstd_print((t_listd_info*)l->content, debug_tree_token, 0);
+		ft_lstd_print((t_listd_info*)l->content, debug_print_token, 0);
 		l = l->next;
 	}
 }
 
-void	debug_tree_token(void *content)
+void	debug_print_token(void *content)
 {
 	t_token	*tree_token;
 
@@ -71,7 +71,7 @@ void	debug_print_token_node(t_tree *node)
 		ft_putchar('\n');
 	}
 	ft_putstr("\033[033mcontent : \033[0m[");
-	debug_tree_token(node->content);
+	debug_print_token(node->content);
 	ft_putstr("]\t\033[035mdepth : \033[0m[");
 	ft_putnbr(node->depth);
 	ft_putstr("]");
