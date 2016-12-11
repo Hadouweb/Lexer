@@ -91,13 +91,14 @@ typedef struct 		s_parse
 	t_list			*lst_tree;
 	t_listd_info	*stack;
 	t_tree			*root;
-	t_tree			*(*rule_func[RULE_COUNT])(t_listd **node);
+	t_tree			*(*rule_func[RULE_COUNT])(t_listd **node, t_tree *prev_tree);
 }					t_parse;
 
 void				clean_lst_token(t_list **lst);
 void				clean_listd_info(t_listd_info *listd);
 void				clean_tree_token(t_tree *node);
 void				clean_lst_tree(t_list **lst);
+void				clean_stack(t_listd_info **listd);
 
 void				lexer(t_lex *lex, char *str);
 void				init_sts(t_status *status);
@@ -144,6 +145,6 @@ void				parser(t_parse *parse, t_list *lst);
 void				init_rule_func(t_parse *parse);
 void				init_parser(t_parse *parse);
 
-t_tree				*rule_great(t_listd **node);
+t_tree				*rule_great(t_listd **node, t_tree *prev_tree);
 
 #endif
