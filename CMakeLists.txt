@@ -17,6 +17,7 @@ set(SRCS
     srcs/init_parser.c
     srcs/rule_func1.c
     srcs/util_free.c
+    srcs/cmd_separator.c
     )
 
 set(HEADERS

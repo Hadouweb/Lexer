@@ -103,6 +103,16 @@ void	debug_all_sub_tree(t_listd_info *lst)
 	}
 }
 
+void			debug_print_lst_tree(t_list *l)
+{
+	while (l)
+	{
+		ft_putstr("------------------- AST -------------------\n");
+		ft_tree_preorder((t_tree*)l->content, debug_print_token_node);
+		l = l->next;
+	}
+}
+
 const char* debug_get_token_name(enum e_tk tk)
 {
 	switch (tk)

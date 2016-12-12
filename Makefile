@@ -23,6 +23,7 @@ SRC = 	$(SRCPATH)/main.c\
         $(SRCPATH)/init_parser.c\
         $(SRCPATH)/rule_func1.c\
         $(SRCPATH)/util_free.c\
+        $(SRCPATH)/cmd_separator.c\
 
 
 OBJ = $(SRC:.c=.o)

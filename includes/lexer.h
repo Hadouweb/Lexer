@@ -99,6 +99,7 @@ void				clean_listd_info(t_listd_info *listd);
 void				clean_tree_token(t_tree *node);
 void				clean_lst_tree(t_list **lst);
 void				clean_stack(t_listd_info **listd);
+void				clean_sub_lst_token(t_list **lst);
 
 void				lexer(t_lex *lex, char *str);
 void				init_sts(t_status *status);
@@ -108,6 +109,7 @@ void				debug_print_token_node(t_tree *node);
 void				debug_all_sub_tree(t_listd_info *lst);
 void				debug_print_lst_sep(t_list *l);
 void				debug_print_token(void *content);
+void				debug_print_lst_tree(t_list *l);
 
 enum e_sts			tk_generic_1(char c, unsigned int *state, char *str);
 enum e_sts			tk_generic_2(char c, unsigned int *state, char *str);
@@ -141,6 +143,9 @@ enum e_lex			main_loop_lex(t_lex *lex);
 const char* 		debug_get_token_name(enum e_tk tk);
 
 void				parser(t_parse *parse, t_list *lst);
+
+t_listd_info		*get_sub_list(t_list **l);
+void				filter_lexer_list(t_list **lst, t_list **lst_tk_sep);
 
 void				init_rule_func(t_parse *parse);
 void				init_parser(t_parse *parse);

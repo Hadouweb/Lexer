@@ -65,3 +65,37 @@ void	clean_stack(t_listd_info **listd)
 	free(*listd);
 	*listd = NULL;
 }
+
+void	clean_listd_info(t_listd_info *listd)
+{
+	t_listd		*l;
+	t_listd		*tmp;
+	t_token		*token;
+
+	l = listd->beg;
+	while (l)
+	{
+		token = (t_token*)l->content;
+		tmp = l;
+		l = l->next;
+		ft_strdel(&token->str);
+		free(tmp->content);
+		free(tmp);
+	}
+}
+
+void	clean_sub_lst_token(t_list **lst)
+{
+	t_list			*l;
+	t_list			*tmp;
+
+	l = *lst;
+	while (l)
+	{
+		tmp = l;
+		l = l->next;
+		clean_listd_info((t_listd_info*)tmp->content);
+		free(tmp->content);
+		free(tmp);
+	}
+}
