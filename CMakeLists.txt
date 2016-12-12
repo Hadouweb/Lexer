@@ -18,6 +18,7 @@ set(SRCS
     srcs/rule_func1.c
     srcs/util_free.c
     srcs/cmd_separator.c
+    srcs/util_tree.c
     )
 
 set(HEADERS

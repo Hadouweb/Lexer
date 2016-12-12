@@ -24,6 +24,7 @@ SRC = 	$(SRCPATH)/main.c\
         $(SRCPATH)/rule_func1.c\
         $(SRCPATH)/util_free.c\
         $(SRCPATH)/cmd_separator.c\
+        $(SRCPATH)/util_tree.c\
 
 
 OBJ = $(SRC:.c=.o)

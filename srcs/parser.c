@@ -9,7 +9,7 @@ t_tree	*find_rule(t_parse *parse, t_listd **node, t_tree *prev_tree)
 	tree = NULL;
 	while (i < RULE_COUNT)
 	{
-		tree = parse->rule_func[i](node, prev_tree);
+		tree = parse->rule_func[i](parse, node, prev_tree);
 		if (tree)
 			return (tree);
 		i++;
@@ -17,25 +17,63 @@ t_tree	*find_rule(t_parse *parse, t_listd **node, t_tree *prev_tree)
 	return (tree);
 }
 
+char 	*get_concat_str_stack(t_parse *parse, t_tree **root)
+{
+	t_listd		*l;
+	char 		*str;
+
+	str = NULL;
+	if (parse->stack && parse->stack->beg)
+	{
+		l = parse->stack->beg;
+		if (parse->last_process)
+			str = ft_strdup(((t_token*)parse->last_process->content)->str);
+		else if ((*root)->left)
+			str = ft_strdup(((t_token*)(*root)->left->content)->str);
+		else
+		{
+			str = ft_strdup(((t_token*)l->content)->str);
+			l = l->next;
+		}
+		//printf("__ %s\n", str);
+		while (l)
+		{
+			str = ft_strjoin_free_s1(str, " ");
+			str = ft_strjoin_free_s1(str, ((t_token*)l->content)->str);
+			l = l->next;
+		}
+	}
+	return (str);
+}
+
 void	add_instr(t_parse *parse, t_tree **root)
 {
-	t_listd			*l;
+	char 			*str;
 	t_token			instr;
 
 	if (parse->stack && parse->stack->beg)
 	{
-		l = parse->stack->beg;
-		instr.str = ft_strdup(((t_token*)l->content)->str);
-		l = l->next;
-		while (l)
+		str = get_concat_str_stack(parse, root);
+		//printf("%s\n", str);
+
+		if (parse->last_process)
 		{
-			instr.str = ft_strjoin_free_s1(instr.str, " ");
-			instr.str = ft_strjoin_free_s1(instr.str, ((t_token*)l->content)->str);
-			l = l->next;
+			//debug_print_token_node(parse->last_process);
+			((t_token *) parse->last_process->content)->str = str;
 		}
-		instr.tk = TK_STR;
-		ft_tree_add_alloc(*root, TREE_LEFT, &instr, sizeof(t_token));
+		else if ((*root)->left)
+		{
+			//debug_print_token_node(parse->last_process);
+			((t_token *)(*root)->left->content)->str = str;
+		}
+		else
+		{
+			instr.str = str;
+			instr.tk = TK_STR;
+			ft_tree_add_alloc(*root, TREE_LEFT, &instr, sizeof(t_token));
+		}
 	}
+	clean_stack(&parse->stack);
 }
 
 t_tree	*make_tree(t_parse *parse, t_listd_info *lst)
@@ -54,13 +92,19 @@ t_tree	*make_tree(t_parse *parse, t_listd_info *lst)
 		else
 		{
 			root = branch;
+			add_instr(parse, &root);
 		}
 		if (l)
 			l = l->next;
 	}
-	if (root)
+	//ft_putstr("STACK\n");
+	//debug_print_token_node(parse->last_process);
+	//ft_lstd_print(parse->stack, debug_print_token, 0);
+	if (root) {
+		//printf("Final instr\n");
+		//ft_lstd_print(parse->stack, debug_print_token, 0);
 		add_instr(parse, &root);
-	clean_stack(&parse->stack);
+	}
 	return (root);
 }
 

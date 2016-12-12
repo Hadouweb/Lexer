@@ -54,6 +54,8 @@ void	clean_stack(t_listd_info **listd)
 	t_listd		*tmp;
 	t_token		*token;
 
+	if (*listd == NULL)
+		return ;
 	l = (*listd)->beg;
 	while (l)
 	{
