@@ -59,11 +59,13 @@ void	add_instr(t_parse *parse, t_tree **root)
 		if (parse->last_process)
 		{
 			//debug_print_token_node(parse->last_process);
+			ft_strdel(&((t_token *)parse->last_process->content)->str);
 			((t_token *) parse->last_process->content)->str = str;
 		}
 		else if ((*root)->left)
 		{
 			//debug_print_token_node(parse->last_process);
+			ft_strdel(&((t_token *)(*root)->left->content)->str);
 			((t_token *)(*root)->left->content)->str = str;
 		}
 		else
@@ -105,6 +107,8 @@ t_tree	*make_tree(t_parse *parse, t_listd_info *lst)
 		//ft_lstd_print(parse->stack, debug_print_token, 0);
 		add_instr(parse, &root);
 	}
+	else
+		clean_stack(&parse->stack);
 	return (root);
 }
 
