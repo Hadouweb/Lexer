@@ -39,12 +39,15 @@ void	debug_print_state(unsigned int *state)
 	}
 }
 
-void	debug_print_lst_sep(t_list *l)
+void	debug_print_list_sep(t_list *list)
 {
+	t_link	*l;
+
+	l = list->head;
 	while (l)
 	{
 		ft_putstr("------------------- CMD -------------------\n");
-		ft_lstd_print((t_listd_info*)l->content, debug_print_token, 0);
+		ft_list_print(l, debug_print_token);
 		l = l->next;
 	}
 }
@@ -61,41 +64,44 @@ void	debug_print_token(void *content)
 	ft_putstr(" ");
 }
 
-void	debug_print_token_node(t_tree *node)
+void	debug_print_token_node(void *node)
 {
-	if (node->parent)
+	t_tree	*n;
+
+	n = (t_tree*)node;
+	if (n->parent)
 	{
 		ft_putstr("\033[036mparent : \033[0m[");
-		ft_putstr(((t_token*)node->parent->content)->str);
+		ft_putstr(((t_token*)n->parent)->str);
 		ft_putstr("]");
 		ft_putchar('\n');
 	}
 	ft_putstr("\033[033mcontent : \033[0m[");
-	debug_print_token(node->content);
+	debug_print_token(node);
 	ft_putstr("]\t\033[035mdepth : \033[0m[");
-	ft_putnbr(node->depth);
+	ft_putnbr(n->depth);
 	ft_putstr("]");
-	if (node->parent)
+	if (n->parent)
 	{
-		if (node->parent->left == node)
+		if (n->parent->left == node)
 			ft_putstr(" LEFT");
-		if (node->parent->right == node)
+		if (n->parent->right == node)
 			ft_putstr(" RIGHT");
 	}
 	ft_putstr("\n\n");
 }
 
-void	debug_all_sub_tree(t_listd_info *lst)
+void	debug_all_sub_tree(t_list *list)
 {
-	t_listd		*l;
+	t_link		*l;
 	t_tree		*sub_tree;
 
-	if (lst)
+	if (list)
 	{
-		l = lst->beg;
+		l = list->head;
 		while (l)
 		{
-			sub_tree = (t_tree*)l->content;
+			sub_tree = (t_tree*)l;
 			ft_putstr("___________________________________\n");
 			ft_tree_preorder(sub_tree, debug_print_token_node);
 			l = l->next;
@@ -103,12 +109,15 @@ void	debug_all_sub_tree(t_listd_info *lst)
 	}
 }
 
-void			debug_print_lst_tree(t_list *l)
+void			debug_print_list_tree(t_list *list)
 {
+	t_link	*l;
+
+	l = list->head;
 	while (l)
 	{
 		ft_putstr("------------------- AST -------------------\n");
-		ft_tree_preorder((t_tree*)l->content, debug_print_token_node);
+		ft_tree_preorder((t_tree*)l, debug_print_token_node);
 		l = l->next;
 	}
 }

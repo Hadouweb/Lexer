@@ -1,6 +1,6 @@
 #include "lexer.h"
 
-t_tree	*find_rule(t_parse *parse, t_listd **node, t_tree *prev_tree)
+t_tree	*find_rule(t_parse *parse, t_link **node, t_tree *prev_tree)
 {
 	int		i;
 	t_tree	*tree;
@@ -19,27 +19,27 @@ t_tree	*find_rule(t_parse *parse, t_listd **node, t_tree *prev_tree)
 
 char 	*get_concat_str_stack(t_parse *parse, t_tree **root)
 {
-	t_listd		*l;
+	t_link		*l;
 	char 		*str;
 
 	str = NULL;
-	if (parse->stack && parse->stack->beg)
+	if (parse->stack && parse->stack->head)
 	{
-		l = parse->stack->beg;
+		l = parse->stack->head;
 		if (parse->last_process)
-			str = ft_strdup(((t_token*)parse->last_process->content)->str);
+			str = ft_strdup(((t_token*)parse->last_process)->str);
 		else if ((*root)->left)
-			str = ft_strdup(((t_token*)(*root)->left->content)->str);
+			str = ft_strdup(((t_token*)(*root)->left)->str);
 		else
 		{
-			str = ft_strdup(((t_token*)l->content)->str);
+			str = ft_strdup(((t_token*)l)->str);
 			l = l->next;
 		}
 		//printf("__ %s\n", str);
 		while (l)
 		{
-			str = ft_strjoin_free_s1(str, " ");
-			str = ft_strjoin_free_s1(str, ((t_token*)l->content)->str);
+			str = ft_strjoin_free(str, " ", 1);
+			str = ft_strjoin_free(str, ((t_token*)l)->str, 1);
 			l = l->next;
 		}
 	}
@@ -51,7 +51,7 @@ void	add_instr(t_parse *parse, t_tree **root)
 	char 			*str;
 	t_token			instr;
 
-	if (parse->stack && parse->stack->beg)
+	if (parse->stack && parse->stack->head)
 	{
 		str = get_concat_str_stack(parse, root);
 		//printf("%s\n", str);
@@ -59,38 +59,38 @@ void	add_instr(t_parse *parse, t_tree **root)
 		if (parse->last_process)
 		{
 			//debug_print_token_node(parse->last_process);
-			ft_strdel(&((t_token *)parse->last_process->content)->str);
-			((t_token *) parse->last_process->content)->str = str;
+			ft_strdel(&((t_token *)parse->last_process)->str);
+			((t_token *) parse->last_process)->str = str;
 		}
 		else if ((*root)->left)
 		{
 			//debug_print_token_node(parse->last_process);
-			ft_strdel(&((t_token *)(*root)->left->content)->str);
-			((t_token *)(*root)->left->content)->str = str;
+			ft_strdel(&((t_token *)(*root)->left)->str);
+			((t_token *)(*root)->left)->str = str;
 		}
 		else
 		{
 			instr.str = str;
 			instr.tk = TK_STR;
-			ft_tree_add_alloc(*root, TREE_LEFT, &instr, sizeof(t_token));
+			//ft_tree_add_alloc(*root, TREE_LEFT, &instr, sizeof(t_token));
 		}
 	}
 	clean_stack(&parse->stack);
 }
 
-t_tree	*make_tree(t_parse *parse, t_listd_info *lst)
+t_tree	*make_tree(t_parse *parse, t_list *list)
 {
-	t_listd		*l;
+	t_link		*l;
 	t_tree		*root;
 	t_tree		*branch;
 
-	l = lst->beg;
+	l = list->head;
 	root = NULL;
 	while (l)
 	{
 		branch = find_rule(parse, &l, root);
 		if (branch == NULL)
-			ft_lstd_pushback(&parse->stack, l->content, l->content_size);
+			;//ft_listd_pushback(&parse->stack, l->content, l->content_size);
 		else
 		{
 			root = branch;
@@ -101,10 +101,10 @@ t_tree	*make_tree(t_parse *parse, t_listd_info *lst)
 	}
 	//ft_putstr("STACK\n");
 	//debug_print_token_node(parse->last_process);
-	//ft_lstd_print(parse->stack, debug_print_token, 0);
+	//ft_listd_print(parse->stack, debug_print_token, 0);
 	if (root) {
 		//printf("Final instr\n");
-		//ft_lstd_print(parse->stack, debug_print_token, 0);
+		//ft_listd_print(parse->stack, debug_print_token, 0);
 		add_instr(parse, &root);
 	}
 	else
@@ -112,26 +112,28 @@ t_tree	*make_tree(t_parse *parse, t_listd_info *lst)
 	return (root);
 }
 
-void	for_each_cmd(t_parse *parse, t_list *l)
+void	for_each_cmd(t_parse *parse, t_list *list)
 {
 	t_tree		*root;
+	t_link		*l;
 
+	l = list->head;
 	while (l)
 	{
-		root = make_tree(parse, (t_listd_info*)l->content);
-		ft_lstpush_back(&parse->lst_tree, root, sizeof(t_tree));
+		root = make_tree(parse, (t_list*)l);
+		//ft_listpush_back(&parse->list_tree, root, sizeof(t_tree));
 		l = l->next;
 	}
 	//ft_putstr("------------------- AST -------------------\n");
 	//ft_tree_preorder(root, debug_print_token_node);
 }
 
-void	parser(t_parse *parse, t_list *lst)
+void	parser(t_parse *parse, t_list *list)
 {
 	init_parser(parse);
-	if (lst)
+	if (list)
 	{
-		debug_print_lst_sep(lst);
-		for_each_cmd(parse, lst);
+		debug_print_list_sep(list);
+		for_each_cmd(parse, list);
 	}
 }

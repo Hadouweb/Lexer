@@ -7,17 +7,20 @@ t_tree		*get_right_node(t_tree *root)
 	return (root);
 }
 
-void		update_tree(t_tree *node)
+void		update_tree(void *node)
 {
-	if (node->right)
+	t_tree	*n;
+
+	n = (t_tree*)node;
+	if (n->right)
 	{
-		node->right->parent = node;
-		node->right->depth = node->depth + 1;
+		n->right->parent = n;
+		n->right->depth = n->depth + 1;
 	}
-	if (node->left)
+	if (n->left)
 	{
-		node->left->parent = node;
-		node->left->depth = node->depth + 1;
+		n->left->parent = n;
+		n->left->depth = n->depth + 1;
 	}
 }
 

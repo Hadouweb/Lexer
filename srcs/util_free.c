@@ -1,103 +1,102 @@
 #include "lexer.h"
 
-void	clean_lst_token(t_list **lst)
+void	clean_list_token(t_list **list)
 {
-	t_list		*tmp;
+	t_link		*tmp;
 	t_token		*token;
-	t_list		*l;
+	t_link		*l;
 
-	l = *lst;
+	l = (*list)->head;
 	while (l)
 	{
 		tmp = l;
-		token = (t_token*)l->content;
+		token = (t_token*)l;
 		l = l->next;
 		ft_strdel(&token->str);
-		free(tmp->content);
 		free(tmp);
 	}
-	//free(*lst);
-	//*lst = NULL;
+	//free(*list);
+	//*list = NULL;
 }
 
-void	clean_tree_token(t_tree *node)
+void	clean_tree_token(void *node)
 {
+	t_tree	*n;
+
+	n = (t_tree*)node;
 	t_token		*token = NULL;
 
-	token = (t_token*)node->content;
+	token = (t_token*)n;
 	free(token->str);
-	free(node->content);
-	free(node);
+	free(n);
 }
 
-void	clean_lst_tree(t_list **lst)
+void	clean_list_tree(t_list **list)
 {
-	t_list	*tmp;
-	t_list	*l;
+	t_link	*tmp;
+	t_link	*l;
 
-	l = *lst;
+	l = (*list)->head;
 	while (l)
 	{
 		tmp = l;
 		l = l->next;
-		ft_tree_postorder((t_tree*)tmp->content, clean_tree_token);
+		ft_tree_postorder((t_tree*)tmp, clean_tree_token);
 		//free(tmp->content);
 		//free(tmp);
 	}
-	free(*lst);
-	*lst = NULL;
+	free(*list);
+	*list = NULL;
 }
 
-void	clean_stack(t_listd_info **listd)
+void	clean_stack(t_list **list)
 {
-	t_listd		*l;
-	t_listd		*tmp;
+	t_link		*l;
+	t_link		*tmp;
 	t_token		*token;
 
-	if (*listd == NULL)
+	if (*list == NULL)
 		return ;
-	l = (*listd)->beg;
+	l = (*list)->head;
 	while (l)
 	{
-		token = (t_token*)l->content;
+		token = (t_token*)l;
 		tmp = l;
 		l = l->next;
 		free(tmp);
 	}
-	free(*listd);
-	*listd = NULL;
+	free(*list);
+	*list = NULL;
 }
 
-void	clean_listd_info(t_listd_info *listd)
+void	clean_listd_info(t_list *list)
 {
-	t_listd		*l;
-	t_listd		*tmp;
+	t_link		*l;
+	t_link		*tmp;
 	t_token		*token;
 
-	l = listd->beg;
+	l = list->head;
 	while (l)
 	{
-		token = (t_token*)l->content;
+		token = (t_token*)l;
 		tmp = l;
 		l = l->next;
 		ft_strdel(&token->str);
-		free(tmp->content);
 		free(tmp);
 	}
 }
 
-void	clean_sub_lst_token(t_list **lst)
+void	clean_sub_list_token(t_list **list)
 {
-	t_list			*l;
-	t_list			*tmp;
+	t_link			*l;
+	t_link			*tmp;
 
-	l = *lst;
+	l = (*list)->head;
 	while (l)
 	{
 		tmp = l;
 		l = l->next;
-		clean_listd_info((t_listd_info*)tmp->content);
-		free(tmp->content);
+		clean_listd_info((t_list*)tmp);
 		free(tmp);
 	}
 }
