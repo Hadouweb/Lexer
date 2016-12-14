@@ -65,10 +65,6 @@ enum e_lex		main_loop_lex(t_lex *lex)
 	int 	tk_find;
 	int 	accepted_token;
 
-	tk_find = 0;
-	accepted_token = 0;
-	if (tk_find && accepted_token)
-		;
 	while (*lex->nend)
 	{
 		tk_find = find_token_substr(lex);

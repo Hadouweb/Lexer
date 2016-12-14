@@ -47,21 +47,21 @@ void	debug_print_list_sep(t_list *list)
 	while (l)
 	{
 		ft_putstr("------------------- CMD -------------------\n");
-		ft_list_print(l, debug_print_token);
+		ft_list_print(((t_list*)l)->head, debug_print_token);
 		l = l->next;
 	}
 }
 
 void	debug_print_token(void *content)
 {
-	t_token	*tree_token;
+	t_token	*token;
 
-	tree_token = (t_token*)content;
-	ft_putstr(" [");
-	ft_putstr(tree_token->str);
-	ft_putstr("] \t\t");
-	ft_putstr(debug_get_token_name(tree_token->tk));
-	ft_putstr(" ");
+	token = (t_token*)content;
+	ft_putstr("str : \t[");
+	ft_putstr(token->str);
+	ft_putstr("]\ttk : \t");
+	ft_putstr(debug_get_token_name(token->tk));
+	ft_putstr("\n");
 }
 
 void	debug_print_token_node(void *node)

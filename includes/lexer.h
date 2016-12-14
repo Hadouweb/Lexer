@@ -62,11 +62,18 @@ enum	e_lex
 	LEX_UNKNOWN_TOKEN,
 };
 
-typedef struct 		s_tree_token
+typedef struct 		s_token
 {
+	t_link			link;
 	char 			*str;
 	enum e_tk		tk;
 }					t_token;
+
+typedef struct 		s_sub_list
+{
+	t_link			link;
+	t_token			*token;
+}					t_sub_list;
 
 typedef struct		s_status
 {
@@ -136,6 +143,7 @@ t_tree				*get_right_node(t_tree *root);
 void				update_tree(void *node);
 void				merge_tree(t_tree *prev_tree, t_tree **cur_tree);
 
+t_token				*make_token(char *str, enum e_tk tk);
 void				init_sts(t_status *status);
 void				init_token_func(t_lex *lex);
 void				init_lexer(t_lex *lex, char *str);
