@@ -11,10 +11,13 @@ int 			main(int ac, char **av)
 	if (ac > 1)
 	{
 		lexer(&lex, av[1]);
+		ft_list_print(lex.list_token->head, debug_print_token_list);
+
 		filter_lexer_list(&lex.list_token, &list_token_separate);
+		debug_print_list_sep(list_token_separate);
+
 		parser(&parse, list_token_separate);
-		//debug_print_list_sep(list_token_separate);
-		//debug_print_list_tree(parse.list_tree);
+		debug_print_list_tree(parse.list_tree);
 		//clean_list_tree(&parse.list_tree);
 		clean_list_token(&lex.list_token);
 		clean_sub_list(&list_token_separate);

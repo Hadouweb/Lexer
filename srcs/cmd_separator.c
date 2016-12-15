@@ -4,6 +4,7 @@ t_list	*get_sub_list(t_link **l)
 {
 	t_list	*list;
 	t_token	*token;
+	t_token	*new_token;
 
 	list = NULL;
 	while (*l)
@@ -13,7 +14,8 @@ t_list	*get_sub_list(t_link **l)
 			return (list);
 		if (token->tk != TK_WSPC && token->tk != TK_END)
 		{
-			ft_list_push_back(&list, &token->link_tmp);
+			new_token = make_token(token->str, token->tk);
+			ft_list_push_back(&list, &new_token->link);
 		}
 		*l = (*l)->next;
 	}

@@ -19,5 +19,4 @@ void	lexer(t_lex *lex, char *str)
 		printf("LEX_UNKNOWN_TOKEN\n");
 	//debug_print_status(lex.status);
 	//debug_print_state(lex.state);
-	//ft_listprint(lex.list_token, debug_tree_token);
 }

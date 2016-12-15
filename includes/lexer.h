@@ -65,7 +65,7 @@ enum	e_lex
 typedef struct 		s_token
 {
 	t_link			link;
-	t_link			link_tmp;
+	t_link			l_stack;
 	t_tree			tree;
 	char 			*str;
 	enum e_tk		tk;
@@ -95,7 +95,8 @@ typedef struct 		s_parse
 	t_list			*stack;
 	t_tree			*root;
 	t_token			*last_process;
-	t_token			*(*rule_func[RULE_COUNT])(struct s_parse *parse, t_link **node, t_token *prev_tree);
+	t_token			*(*rule_func[RULE_COUNT])(struct s_parse *parse,
+						t_link **node, t_token *prev_tree);
 }					t_parse;
 
 void				clean_list_token(t_list **list);

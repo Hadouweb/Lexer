@@ -101,12 +101,12 @@ void			debug_print_list_tree(t_list *list)
 	t_link	*l;
 	t_token	*token;
 
-	token = PTR_NODE(list->head, t_token, link_tmp);
-	l = &token->link_tmp;
+	token = PTR_NODE(list->head, t_token, link);
+	l = &token->link;
 	while (l)
 	{
 		ft_putstr("------------------- AST -------------------\n");
-		token = PTR_NODE(l, t_token, link_tmp);
+		token = PTR_NODE(l, t_token, link);
 		//printf("%s\n", token->str);
 		ft_tree_preorder(&token->tree, debug_print_token_tree);
 		l = l->next;
