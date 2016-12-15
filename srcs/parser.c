@@ -24,7 +24,6 @@ char 	*get_concat_str_stack(t_parse *parse, t_token **root)
 	t_link		*l;
 	char 		*str;
 
-	str = NULL;
 	l = parse->stack->head;
 	if (parse->last_process)
 		str = ft_strdup((parse->last_process)->str);
@@ -32,7 +31,7 @@ char 	*get_concat_str_stack(t_parse *parse, t_token **root)
 		str = ft_strdup((PTR_NODE((*root)->tree.left, t_token, tree))->str);
 	else
 	{
-		str = ft_strdup((PTR_NODE(l, t_token, l_stack))->str);
+		str = ft_strdup((PTR_NODE(l, t_token, link))->str);
 		l = l->next;
 	}
 	//printf("__ %s\n", str);
@@ -40,7 +39,7 @@ char 	*get_concat_str_stack(t_parse *parse, t_token **root)
 	{
 		str = ft_strjoin_free(str, " ", 1);
 		str = ft_strjoin_free(str,
-		(PTR_NODE(l, t_token, l_stack))->str, 1);
+		(PTR_NODE(l, t_token, link))->str, 1);
 		l = l->next;
 	}
 	return (str);
@@ -88,10 +87,10 @@ t_token	*make_tree(t_parse *parse, t_list *list)
 	root = NULL;
 	while (l)
 	{
-		cur_token = PTR_NODE(l, t_token, link);
+		cur_token = PTR_NODE(l, t_token, link_tmp);
 		branch = find_rule(parse, &l, root);
 		if (branch == NULL)
-			ft_list_push_back(&parse->stack, &cur_token->l_stack);
+			ft_list_push_back(&parse->stack, &cur_token->link);
 		else
 		{
 			root = branch;
@@ -118,11 +117,16 @@ t_token	*make_tree(t_parse *parse, t_list *list)
 void	for_each_cmd(t_parse *parse, t_list *list)
 {
 	t_link		*l;
+	t_list		*sub_list;
+	t_token		*root;
 
 	l = list->head;
 	while (l)
 	{
-		make_tree(parse, (t_list*)l);
+		sub_list = PTR_NODE(l, t_list, link);
+		root = make_tree(parse, sub_list);
+		ft_list_push_back(&parse->list_tree, &root->link_tmp);
+		//ft_tree_preorder(&root->tree, debug_print_token_tree);
 		l = l->next;
 	}
 	//ft_putstr("------------------- AST -------------------\n");
@@ -134,8 +138,6 @@ void	parser(t_parse *parse, t_list *list)
 	init_parser(parse);
 	if (list)
 	{
-		//debug_print_list_sep(list);
 		for_each_cmd(parse, list);
-		parse->list_tree = list;
 	}
 }

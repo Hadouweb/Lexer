@@ -13,15 +13,12 @@ t_list	*get_sub_list(t_link **l)
 			return (list);
 		if (token->tk != TK_WSPC && token->tk != TK_END)
 		{
-			token = make_token(ft_strdup(token->str), token->tk);
-			ft_list_push_back(&list, &token->link);
+			ft_list_push_back(&list, &token->link_tmp);
 		}
 		*l = (*l)->next;
 	}
 	return (list);
 }
-
-
 
 void		filter_lexer_list(t_list **list, t_list **list_tk_sep)
 {
@@ -39,5 +36,4 @@ void		filter_lexer_list(t_list **list, t_list **list_tk_sep)
 	}
 	//printf("%lu\n", ft_list_size(*list_tk_sep));
 	//ft_list_print((*list_tk_sep)->head, debug_print_token);
-	clean_list_token(list);
 }

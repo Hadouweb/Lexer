@@ -7,8 +7,8 @@ t_token		*rule_great(t_parse *parse, t_link **node, t_token *prev_tree)
 	t_token			*next_token;
 
 	root = NULL;
-	token = PTR_NODE(*node, t_token, link);
-	next_token = PTR_NODE(token->link.next, t_token, link);
+	token = PTR_NODE(*node, t_token, link_tmp);
+	next_token = PTR_NODE(token->link.next, t_token, link_tmp);
 	if (token->tk == TK_GREAT)
 	{
 		if (parse)

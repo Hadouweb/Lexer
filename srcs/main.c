@@ -13,9 +13,11 @@ int 			main(int ac, char **av)
 		lexer(&lex, av[1]);
 		filter_lexer_list(&lex.list_token, &list_token_separate);
 		parser(&parse, list_token_separate);
-		debug_print_list_tree(parse.list_tree);
+		//debug_print_list_sep(list_token_separate);
+		//debug_print_list_tree(parse.list_tree);
 		//clean_list_tree(&parse.list_tree);
-		clean_sub_list_token(&list_token_separate);
+		clean_list_token(&lex.list_token);
+		clean_sub_list(&list_token_separate);
 	}
 	else
 		printf("Usage: [lexer string]\n");
