@@ -1,24 +1,5 @@
 #include "lexer.h"
 
-void	clean_list_token(t_list **list)
-{
-	t_link		*tmp;
-	t_token		*token;
-	t_link		*l;
-
-	l = (*list)->head;
-	while (l)
-	{
-		tmp = l;
-		token = (t_token*)l;
-		l = l->next;
-		ft_strdel(&token->str);
-		free(tmp);
-	}
-	//free(*list);
-	//*list = NULL;
-}
-
 void	clean_tree_token(void *node)
 {
 	t_tree	*n;
@@ -69,34 +50,37 @@ void	clean_stack(t_list **list)
 	*list = NULL;
 }
 
-void	clean_listd_info(t_list *list)
+void	clean_list_token(t_list **list)
 {
 	t_link		*l;
 	t_link		*tmp;
 	t_token		*token;
 
-	l = list->head;
+	l = (*list)->head;
 	while (l)
 	{
-		token = (t_token*)l;
+		token = PTR_NODE(l, t_token, link);
 		tmp = l;
 		l = l->next;
 		ft_strdel(&token->str);
-		free(tmp);
+		free(token);
 	}
+	free(*list);
+	*list = NULL;
 }
 
 void	clean_sub_list_token(t_list **list)
 {
 	t_link			*l;
-	t_link			*tmp;
+	t_list			*tmp;
 
 	l = (*list)->head;
 	while (l)
 	{
-		tmp = l;
+		tmp = (t_list*)l;
 		l = l->next;
-		clean_listd_info((t_list*)tmp);
-		free(tmp);
+		clean_list_token(&tmp);
 	}
+	free(*list);
+	*list = NULL;
 }

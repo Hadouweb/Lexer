@@ -8,7 +8,7 @@ t_list	*get_sub_list(t_link **l)
 	list = NULL;
 	while (*l)
 	{
-		token = (t_token *)(*l);
+		token = PTR_NODE(*l, t_token, link);
 		if (token->tk == TK_SCOL || token->tk == TK_AND_IF)
 			return (list);
 		if (token->tk != TK_WSPC && token->tk != TK_END)

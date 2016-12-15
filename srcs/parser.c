@@ -7,9 +7,11 @@ t_tree	*find_rule(t_parse *parse, t_link **node, t_tree *prev_tree)
 
 	i = 0;
 	tree = NULL;
+	if (node && prev_tree && parse)
+		;
 	while (i < RULE_COUNT)
 	{
-		tree = parse->rule_func[i](parse, node, prev_tree);
+		//tree = parse->rule_func[i](parse, node, prev_tree);
 		if (tree)
 			return (tree);
 		i++;
@@ -90,11 +92,11 @@ t_tree	*make_tree(t_parse *parse, t_list *list)
 	{
 		branch = find_rule(parse, &l, root);
 		if (branch == NULL)
-			;//ft_listd_pushback(&parse->stack, l->content, l->content_size);
+			;//ft_list_push_back(&parse->stack, l->content, l->content_size);
 		else
 		{
 			root = branch;
-			add_instr(parse, &root);
+			//add_instr(parse, &root);
 		}
 		if (l)
 			l = l->next;
@@ -105,7 +107,7 @@ t_tree	*make_tree(t_parse *parse, t_list *list)
 	if (root) {
 		//printf("Final instr\n");
 		//ft_listd_print(parse->stack, debug_print_token, 0);
-		add_instr(parse, &root);
+		//add_instr(parse, &root);
 	}
 	else
 		clean_stack(&parse->stack);
@@ -121,6 +123,7 @@ void	for_each_cmd(t_parse *parse, t_list *list)
 	while (l)
 	{
 		root = make_tree(parse, (t_list*)l);
+		ft_tree_preorder(root, debug_print_token_node);
 		//ft_listpush_back(&parse->list_tree, root, sizeof(t_tree));
 		l = l->next;
 	}

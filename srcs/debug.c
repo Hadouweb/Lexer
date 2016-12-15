@@ -56,7 +56,7 @@ void	debug_print_token(void *content)
 {
 	t_token	*token;
 
-	token = (t_token*)content;
+	token = PTR_NODE(content, t_token, link);
 	ft_putstr("str : \t[");
 	ft_putstr(token->str);
 	ft_putstr("]\ttk : \t");
