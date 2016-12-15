@@ -32,18 +32,6 @@ void	clean_list_tree(t_list **list)
 
 void	clean_stack(t_list **list)
 {
-	t_link		*l;
-	t_link		*tmp;
-
-	if (*list == NULL)
-		return ;
-	l = (*list)->head;
-	while (l)
-	{
-		tmp = l;
-		l = l->next;
-		free(tmp);
-	}
 	free(*list);
 	*list = NULL;
 }
@@ -51,14 +39,12 @@ void	clean_stack(t_list **list)
 void	clean_list_token(t_list **list)
 {
 	t_link		*l;
-	t_link		*tmp;
 	t_token		*token;
 
 	l = (*list)->head;
 	while (l)
 	{
 		token = PTR_NODE(l, t_token, link);
-		tmp = l;
 		l = l->next;
 		ft_strdel(&token->str);
 		free(token);

@@ -66,15 +66,17 @@ void	debug_print_token_list(void *content)
 
 void	debug_print_token_tree(void *content)
 {
-	t_token	*token;
+	//t_token	*token;
 
-	token = PTR_NODE(content, t_token, tree);
+	/*token = PTR_NODE(content, t_token, tree);
 	ft_tree_info_node(&token->tree);
 	ft_putstr("str : \t[");
 	ft_putstr(token->str);
 	ft_putstr("]\ttk : \t");
 	ft_putstr(debug_get_token_name(token->tk));
-	ft_putstr("\n");
+	ft_putstr("\n");*/
+	if (content)
+		;
 }
 
 void	debug_all_sub_tree(t_list *list)
@@ -98,12 +100,14 @@ void	debug_all_sub_tree(t_list *list)
 void			debug_print_list_tree(t_list *list)
 {
 	t_link	*l;
+	t_token	*token;
 
 	l = list->head;
 	while (l)
 	{
 		ft_putstr("------------------- AST -------------------\n");
-		ft_tree_preorder((t_tree*)l, debug_print_token_tree);
+		token = PTR_NODE(l, t_token, link);
+		ft_tree_preorder(&token->tree, debug_print_token_tree);
 		l = l->next;
 	}
 }
