@@ -73,7 +73,7 @@ typedef struct 		s_token
 typedef struct		s_stack
 {
 	t_link			link;
-	void			*data;
+	t_token			*token;
 }					t_stack;
 
 typedef struct 		s_sub_list
@@ -105,7 +105,7 @@ typedef struct 		s_parse
 	t_list			*list_tree;
 	t_list			*stack;
 	t_tree			*root;
-	t_tree			*last_process;
+	t_token			*last_process;
 	t_token			*(*rule_func[RULE_COUNT])(struct s_parse *parse, t_link **node, t_token *prev_tree);
 }					t_parse;
 
@@ -173,7 +173,7 @@ t_token				*rule_great(t_parse *parse, t_link **node, t_token *prev_tree);
 t_token				*rule_less(t_parse *parse, t_link **node, t_token *prev_tree);
 t_token				*rule_pipe(t_parse *parse, t_link **node, t_token *prev_tree);
 
-char 				*get_concat_str_stack(t_parse *parse, t_tree **root);
-void				add_instr(t_parse *parse, t_tree **root);
+char 				*get_concat_str_stack(t_parse *parse, t_token **root);
+void				add_instr(t_parse *parse, t_token **root);
 
 #endif

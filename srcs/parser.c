@@ -19,62 +19,59 @@ t_token	*find_rule(t_parse *parse, t_link **node, t_token *prev_tree)
 	return (tree);
 }
 
-char 	*get_concat_str_stack(t_parse *parse, t_tree **root)
+char 	*get_concat_str_stack(t_parse *parse, t_token **root)
 {
 	t_link		*l;
 	char 		*str;
 
 	str = NULL;
-	if (parse->stack && parse->stack->head)
+	l = parse->stack->head;
+	if (parse->last_process)
+		str = ft_strdup((parse->last_process)->str);
+	else if ((*root)->tree.left)
+		str = ft_strdup((PTR_NODE((*root)->tree.left, t_token, tree))->str);
+	else
 	{
-		l = parse->stack->head;
-		if (parse->last_process)
-			str = ft_strdup(((t_token*)parse->last_process)->str);
-		else if ((*root)->left)
-			str = ft_strdup(((t_token*)(*root)->left)->str);
-		else
-		{
-			str = ft_strdup(((t_token*)l)->str);
-			l = l->next;
-		}
-		//printf("__ %s\n", str);
-		while (l)
-		{
-			str = ft_strjoin_free(str, " ", 1);
-			str = ft_strjoin_free(str, ((t_token*)l)->str, 1);
-			l = l->next;
-		}
+		str = ft_strdup((PTR_NODE(l, t_stack, link))->token->str);
+		l = l->next;
+	}
+	//printf("__ %s\n", str);
+	while (l)
+	{
+		str = ft_strjoin_free(str, " ", 1);
+		str = ft_strjoin_free(str,
+		(PTR_NODE(l, t_stack, link))->token->str, 1);
+		l = l->next;
 	}
 	return (str);
 }
 
-void	add_instr(t_parse *parse, t_tree **root)
+void	add_instr(t_parse *parse, t_token **root)
 {
 	char 			*str;
-	t_token			instr;
+	t_token			*instr;
 
 	if (parse->stack && parse->stack->head)
 	{
 		str = get_concat_str_stack(parse, root);
-		//printf("%s\n", str);
+		//printf("__%s\n", str);
 
 		if (parse->last_process)
 		{
 			//debug_print_token_node(parse->last_process);
-			ft_strdel(&((t_token *)parse->last_process)->str);
-			((t_token *) parse->last_process)->str = str;
+			ft_strdel(&parse->last_process->str);
+			parse->last_process->str = str;
 		}
-		else if ((*root)->left)
+		else if ((*root)->tree.left)
 		{
 			//debug_print_token_node(parse->last_process);
-			ft_strdel(&((t_token *)(*root)->left)->str);
-			((t_token *)(*root)->left)->str = str;
+			ft_strdel(&(PTR_NODE((*root)->tree.left, t_token, tree))->str);
+			(PTR_NODE((*root)->tree.left, t_token, tree))->str = str;
 		}
 		else
 		{
-			instr.str = str;
-			instr.tk = TK_STR;
-			//ft_tree_add_alloc(*root, TREE_LEFT, &instr, sizeof(t_token));
+			instr = make_token(str, TK_STR);
+			ft_tree_add(&(*root)->tree, TREE_LEFT, &instr->tree);
 		}
 	}
 	clean_stack(&parse->stack);
@@ -87,7 +84,7 @@ void	push_stack(t_list **stack, t_token *data)
 	stack_token = (t_stack*)ft_memalloc(sizeof(t_stack));
 	if (stack_token == NULL)
 		return ;
-	stack_token->data = data;
+	stack_token->token = data;
 	ft_list_push_back(stack, &stack_token->link);
 }
 
@@ -109,8 +106,7 @@ t_token	*make_tree(t_parse *parse, t_list *list)
 		else
 		{
 			root = branch;
-			break ;
-			//add_instr(parse, &root);
+			add_instr(parse, &root);
 		}
 		if (l)
 			l = l->next;
