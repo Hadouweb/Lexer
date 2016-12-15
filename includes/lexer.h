@@ -70,6 +70,12 @@ typedef struct 		s_token
 	enum e_tk		tk;
 }					t_token;
 
+typedef struct		s_stack
+{
+	t_link			link;
+	void			*data;
+}					t_stack;
+
 typedef struct 		s_sub_list
 {
 	t_link			link;
@@ -92,7 +98,7 @@ typedef struct		s_lex
 	enum e_sts		(*token_func[TK_COUNT])(char, unsigned int*);
 }					t_lex;
 
-#define RULE_COUNT 3
+#define RULE_COUNT 1
 
 typedef struct 		s_parse
 {
@@ -100,7 +106,7 @@ typedef struct 		s_parse
 	t_list			*stack;
 	t_tree			*root;
 	t_tree			*last_process;
-	t_tree			*(*rule_func[RULE_COUNT])(struct s_parse *parse, t_link **node, t_tree *prev_tree);
+	t_token			*(*rule_func[RULE_COUNT])(struct s_parse *parse, t_link **node, t_token *prev_tree);
 }					t_parse;
 
 void				clean_list_token(t_list **list);
@@ -113,10 +119,10 @@ void				lexer(t_lex *lex, char *str);
 void				init_sts(t_status *status);
 void				debug_print_status(t_status *status);
 void				debug_print_state(unsigned int *state);
-void				debug_print_token_node(void *node);
 void				debug_all_sub_tree(t_list *list);
 void				debug_print_list_sep(t_list *l);
-void				debug_print_token(void *content);
+void				debug_print_token_list(void *content);
+void				debug_print_token_tree(void *content);
 void				debug_print_list_tree(t_list *l);
 
 enum e_sts			tk_generic_1(char c, unsigned int *state, char *str);
@@ -141,7 +147,7 @@ enum e_sts			tk_great(char c, unsigned int *state);
 
 t_tree				*get_right_node(t_tree *root);
 void				update_tree(void *node);
-void				merge_tree(t_tree *prev_tree, t_tree **cur_tree);
+void				merge_tree(t_token *prev_tree, t_token **cur_tree);
 
 t_token				*make_token(char *str, enum e_tk tk);
 void				init_sts(t_status *status);
@@ -163,9 +169,9 @@ void				filter_lexer_list(t_list **list, t_list **list_tk_sep);
 void				init_rule_func(t_parse *parse);
 void				init_parser(t_parse *parse);
 
-t_tree				*rule_great(t_parse *parse, t_link **node, t_tree *prev_tree);
-t_tree				*rule_less(t_parse *parse, t_link **node, t_tree *prev_tree);
-t_tree				*rule_pipe(t_parse *parse, t_link **node, t_tree *prev_tree);
+t_token				*rule_great(t_parse *parse, t_link **node, t_token *prev_tree);
+t_token				*rule_less(t_parse *parse, t_link **node, t_token *prev_tree);
+t_token				*rule_pipe(t_parse *parse, t_link **node, t_token *prev_tree);
 
 char 				*get_concat_str_stack(t_parse *parse, t_tree **root);
 void				add_instr(t_parse *parse, t_tree **root);

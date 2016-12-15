@@ -34,14 +34,12 @@ void	clean_stack(t_list **list)
 {
 	t_link		*l;
 	t_link		*tmp;
-	t_token		*token;
 
 	if (*list == NULL)
 		return ;
 	l = (*list)->head;
 	while (l)
 	{
-		token = (t_token*)l;
 		tmp = l;
 		l = l->next;
 		free(tmp);

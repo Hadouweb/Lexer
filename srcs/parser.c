@@ -1,9 +1,9 @@
 #include "lexer.h"
 
-t_tree	*find_rule(t_parse *parse, t_link **node, t_tree *prev_tree)
+t_token	*find_rule(t_parse *parse, t_link **node, t_token *prev_tree)
 {
 	int		i;
-	t_tree	*tree;
+	t_token	*tree;
 
 	i = 0;
 	tree = NULL;
@@ -11,7 +11,7 @@ t_tree	*find_rule(t_parse *parse, t_link **node, t_tree *prev_tree)
 		;
 	while (i < RULE_COUNT)
 	{
-		//tree = parse->rule_func[i](parse, node, prev_tree);
+		tree = parse->rule_func[i](parse, node, prev_tree);
 		if (tree)
 			return (tree);
 		i++;
@@ -80,22 +80,36 @@ void	add_instr(t_parse *parse, t_tree **root)
 	clean_stack(&parse->stack);
 }
 
-t_tree	*make_tree(t_parse *parse, t_list *list)
+void	push_stack(t_list **stack, t_token *data)
+{
+	t_stack		*stack_token;
+
+	stack_token = (t_stack*)ft_memalloc(sizeof(t_stack));
+	if (stack_token == NULL)
+		return ;
+	stack_token->data = data;
+	ft_list_push_back(stack, &stack_token->link);
+}
+
+t_token	*make_tree(t_parse *parse, t_list *list)
 {
 	t_link		*l;
-	t_tree		*root;
-	t_tree		*branch;
+	t_token		*root;
+	t_token		*branch;
+	t_token		*cur_token;
 
 	l = list->head;
 	root = NULL;
 	while (l)
 	{
+		cur_token = PTR_NODE(l, t_token, link);
 		branch = find_rule(parse, &l, root);
 		if (branch == NULL)
-			;//ft_list_push_back(&parse->stack, l->content, l->content_size);
+			push_stack(&parse->stack, cur_token);
 		else
 		{
 			root = branch;
+			break ;
 			//add_instr(parse, &root);
 		}
 		if (l)
@@ -104,7 +118,9 @@ t_tree	*make_tree(t_parse *parse, t_list *list)
 	//ft_putstr("STACK\n");
 	//debug_print_token_node(parse->last_process);
 	//ft_listd_print(parse->stack, debug_print_token, 0);
-	if (root) {
+	if (root)
+	{
+		ft_tree_preorder(&root->tree, debug_print_token_tree);
 		//printf("Final instr\n");
 		//ft_listd_print(parse->stack, debug_print_token, 0);
 		//add_instr(parse, &root);
@@ -116,15 +132,12 @@ t_tree	*make_tree(t_parse *parse, t_list *list)
 
 void	for_each_cmd(t_parse *parse, t_list *list)
 {
-	t_tree		*root;
 	t_link		*l;
 
 	l = list->head;
 	while (l)
 	{
-		root = make_tree(parse, (t_list*)l);
-		ft_tree_preorder(root, debug_print_token_node);
-		//ft_listpush_back(&parse->list_tree, root, sizeof(t_tree));
+		make_tree(parse, (t_list*)l);
 		l = l->next;
 	}
 	//ft_putstr("------------------- AST -------------------\n");

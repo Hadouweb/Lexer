@@ -1,28 +1,21 @@
 #include "lexer.h"
 
-t_tree		*rule_great(t_parse *parse, t_link **node, t_tree *prev_tree)
+t_token		*rule_great(t_parse *parse, t_link **node, t_token *prev_tree)
 {
-	t_tree			*root;
+	t_token			*root;
 	t_token			*token;
-	t_token			new_token;
-	t_link			*n;
+	t_token			*next_token;
 
 	root = NULL;
-	n = *node;
-	token = (t_token*)n;
-
+	token = PTR_NODE(*node, t_token, link);
+	next_token = PTR_NODE(token->link.next, t_token, link);
 	if (token->tk == TK_GREAT)
 	{
 		if (parse)
 			;
-		//root = ft_tree_new_alloc(token, sizeof(t_token));
-		((t_token*)root)->str = ft_strdup(token->str);
-		if (n->next != NULL)
-		{
-			new_token.str = ft_strdup(((t_token *) (*node)->next)->str);
-			new_token.tk = ((t_token *) (*node)->next)->tk;
-			//ft_tree_add_alloc(root, TREE_RIGHT, &new_token, sizeof(t_token));
-		}
+		root = token;
+		if (next_token != NULL)
+			ft_tree_add(&root->tree, TREE_RIGHT, &next_token->tree);
 		if (prev_tree)
 			merge_tree(prev_tree, &root);
 		*node = (*node)->next;
@@ -30,9 +23,9 @@ t_tree		*rule_great(t_parse *parse, t_link **node, t_tree *prev_tree)
 	return (root);
 }
 
-t_tree		*rule_less(t_parse *parse, t_link **node, t_tree *prev_tree)
+/*t_token		*rule_less(t_parse *parse, t_link **node, t_token *prev_tree)
 {
-	t_tree			*root;
+	t_token			*root;
 	t_token			*token;
 	t_token			new_token;
 	t_link			*n;
@@ -46,7 +39,7 @@ t_tree		*rule_less(t_parse *parse, t_link **node, t_tree *prev_tree)
 		if (parse)
 			;
 		//root = ft_tree_new_alloc(token, sizeof(t_token));
-		((t_token*)root)->str = ft_strdup(token->str);
+		root->str = ft_strdup(token->str);
 		if (n->next != NULL)
 		{
 			new_token.str = ft_strdup(((t_token *) (*node)->next)->str);
@@ -60,9 +53,9 @@ t_tree		*rule_less(t_parse *parse, t_link **node, t_tree *prev_tree)
 	return (root);
 }
 
-t_tree		*rule_pipe(t_parse *parse, t_link **node, t_tree *prev_tree)
+t_token		*rule_pipe(t_parse *parse, t_link **node, t_token *prev_tree)
 {
-	t_tree			*root;
+	t_token			*root;
 	t_token			*token;
 	t_token			new_token;
 	t_link			*n;
@@ -74,7 +67,7 @@ t_tree		*rule_pipe(t_parse *parse, t_link **node, t_tree *prev_tree)
 	if (token->tk == TK_PIPE)
 	{
 		//root = ft_tree_new_alloc(token, sizeof(t_token));
-		((t_token*)root)->str = ft_strdup(token->str);
+		root->str = ft_strdup(token->str);
 		if (n->next != NULL)
 		{
 			if (prev_tree)
@@ -91,4 +84,4 @@ t_tree		*rule_pipe(t_parse *parse, t_link **node, t_tree *prev_tree)
 			merge_tree(prev_tree, &root);
 	}
 	return (root);
-}
+}*/

@@ -47,12 +47,12 @@ void	debug_print_list_sep(t_list *list)
 	while (l)
 	{
 		ft_putstr("------------------- CMD -------------------\n");
-		ft_list_print(((t_list*)l)->head, debug_print_token);
+		ft_list_print(((t_list*)l)->head, debug_print_token_list);
 		l = l->next;
 	}
 }
 
-void	debug_print_token(void *content)
+void	debug_print_token_list(void *content)
 {
 	t_token	*token;
 
@@ -64,31 +64,17 @@ void	debug_print_token(void *content)
 	ft_putstr("\n");
 }
 
-void	debug_print_token_node(void *node)
+void	debug_print_token_tree(void *content)
 {
-	t_tree	*n;
+	t_token	*token;
 
-	n = (t_tree*)node;
-	if (n->parent)
-	{
-		ft_putstr("\033[036mparent : \033[0m[");
-		ft_putstr(((t_token*)n->parent)->str);
-		ft_putstr("]");
-		ft_putchar('\n');
-	}
-	ft_putstr("\033[033mcontent : \033[0m[");
-	debug_print_token(node);
-	ft_putstr("]\t\033[035mdepth : \033[0m[");
-	ft_putnbr(n->depth);
-	ft_putstr("]");
-	if (n->parent)
-	{
-		if (n->parent->left == node)
-			ft_putstr(" LEFT");
-		if (n->parent->right == node)
-			ft_putstr(" RIGHT");
-	}
-	ft_putstr("\n\n");
+	token = PTR_NODE(content, t_token, tree);
+	ft_tree_info_node(&token->tree);
+	ft_putstr("str : \t[");
+	ft_putstr(token->str);
+	ft_putstr("]\ttk : \t");
+	ft_putstr(debug_get_token_name(token->tk));
+	ft_putstr("\n");
 }
 
 void	debug_all_sub_tree(t_list *list)
@@ -103,7 +89,7 @@ void	debug_all_sub_tree(t_list *list)
 		{
 			sub_tree = (t_tree*)l;
 			ft_putstr("___________________________________\n");
-			ft_tree_preorder(sub_tree, debug_print_token_node);
+			ft_tree_preorder(sub_tree, debug_print_token_tree);
 			l = l->next;
 		}
 	}
@@ -117,7 +103,7 @@ void			debug_print_list_tree(t_list *list)
 	while (l)
 	{
 		ft_putstr("------------------- AST -------------------\n");
-		ft_tree_preorder((t_tree*)l, debug_print_token_node);
+		ft_tree_preorder((t_tree*)l, debug_print_token_tree);
 		l = l->next;
 	}
 }

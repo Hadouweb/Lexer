@@ -24,7 +24,7 @@ void		update_tree(void *node)
 	}
 }
 
-void		merge_tree(t_tree *prev_tree, t_tree **cur_tree)
+void		merge_tree(t_token *prev_tree, t_token **cur_tree)
 {
 	//printf("------------------- prev_tree -------------------\n");
 	//ft_tree_preorder(prev_tree, debug_print_token_node);
@@ -32,8 +32,8 @@ void		merge_tree(t_tree *prev_tree, t_tree **cur_tree)
 	//ft_tree_preorder(*cur_tree, debug_print_token_node);
 	t_tree	*right_node;
 
-	right_node = get_right_node(prev_tree);
-	right_node->right = *cur_tree;
-	*cur_tree = prev_tree;
-	ft_tree_preorder(*cur_tree, update_tree);
+	right_node = get_right_node(&prev_tree->tree);
+	right_node->right = &(*cur_tree)->tree;
+	(*cur_tree)->tree = prev_tree->tree;
+	ft_tree_preorder(&(*cur_tree)->tree, update_tree);
 }
