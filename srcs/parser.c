@@ -1,9 +1,9 @@
 #include "lexer.h"
 
-t_token	*find_rule(t_parse *parse, t_link **node, t_token *prev_tree)
+t_tree	*find_rule(t_parse *parse, t_link **node, t_tree *prev_tree)
 {
 	int		i;
-	t_token	*tree;
+	t_tree	*tree;
 
 	i = 0;
 	tree = NULL;
@@ -21,10 +21,17 @@ t_token	*find_rule(t_parse *parse, t_link **node, t_token *prev_tree)
 
 t_token 	*get_process(t_parse *parse, t_token **root)
 {
+	t_tree	*process;
+
 	if (parse->last_process)
 		return (parse->last_process);
 	else if ((*root)->tree.left)
-		return (PTR_NODE((*root)->tree.left, t_token, tree));
+	{
+		process = &(*root)->tree;
+		while (process->left)
+			process = process->left;
+		return (PTR_NODE(process, t_token, tree));
+	}
 	return (*root);
 }
 
@@ -33,26 +40,47 @@ void	add_instr(t_parse *parse, t_token **root)
 	t_link		*l;
 	t_token		*token;
 	t_token		*process;
+	t_tree		*cur_tree;
 
 	if (parse->stack && parse->stack->head)
 	{
 		process = get_process(parse, root);
+		printf("-- %s\n", process->str);
 		l = parse->stack->head;
+		cur_tree = &process->tree;
 		while (l)
 		{
 			token = PTR_NODE(l, t_token, l_stack);
-			ft_tree_add(&process->tree, TREE_LEFT, &token->tree);
+			cur_tree = ft_tree_add(cur_tree, TREE_LEFT, &token->tree);
 			l = l->next;
 		}
 	}
 	clean_stack(&parse->stack);
 }
 
-t_token	*make_tree(t_parse *parse, t_list *list)
+t_tree	*default_tree(t_parse *parse)
 {
 	t_link		*l;
-	t_token		*root;
-	t_token		*branch;
+	t_tree		*root;
+	t_token		*token;
+
+	root = NULL;
+	if (parse->stack && parse->stack->head)
+	{
+		l = parse->stack->head;
+		token = PTR_NODE(l, t_token, l_stack);
+		root = &token->tree;
+		parse->stack->head = l->next;
+	}
+	add_instr(parse, &token);
+	return (root);
+}
+
+t_tree	*make_tree(t_parse *parse, t_list *list)
+{
+	t_link		*l;
+	t_tree		*root;
+	t_tree		*branch;
 	t_token		*cur_token;
 
 	l = list->head;
@@ -66,23 +94,21 @@ t_token	*make_tree(t_parse *parse, t_list *list)
 		else
 		{
 			root = branch;
-			add_instr(parse, &root);
+			cur_token = PTR_NODE(root, t_token, tree);
+			add_instr(parse, &cur_token);
 		}
 		if (l)
 			l = l->next;
 	}
-	//ft_putstr("STACK\n");
-	//debug_print_token_node(parse->last_process);
-	//ft_listd_print(parse->stack, debug_print_token, 0);
 	if (root)
 	{
-		//ft_tree_preorder(&root->tree, debug_print_token_tree);
-		//printf("Final instr\n");
-		//ft_listd_print(parse->stack, debug_print_token, 0);
-		//add_instr(parse, &root);
+		cur_token = PTR_NODE(root, t_token, tree);
+		add_instr(parse, &cur_token);
 	}
 	else
-		clean_stack(&parse->stack);
+		return (default_tree(parse));
+
+	clean_stack(&parse->stack);
 	return (root);
 }
 
@@ -90,7 +116,7 @@ void	for_each_cmd(t_parse *parse, t_list *list)
 {
 	t_link		*l;
 	t_list		*sub_list;
-	t_token		*root;
+	t_tree		*root;
 
 	l = list->head;
 	while (l)

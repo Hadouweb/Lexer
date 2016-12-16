@@ -15,22 +15,21 @@ void			init_sts(t_status *status)
 
 void			init_token_func(t_lex *lex)
 {
-	lex->token_func[0] = tk_opt;
-	lex->token_func[1] = tk_and_if;
-	lex->token_func[2] = tk_or_if;
-	lex->token_func[3] = tk_dless;
-	lex->token_func[4] = tk_dgreat;
-	lex->token_func[5] = tk_lessand;
-	lex->token_func[6] = tk_greatand;
-	lex->token_func[7] = tk_lessgreat;
-	lex->token_func[8] = tk_clobber;
-	lex->token_func[9] = tk_wspc;
-	lex->token_func[10] = tk_pipe;
-	lex->token_func[11] = tk_scol;
-	lex->token_func[12] = tk_and;
-	lex->token_func[13] = tk_less;
-	lex->token_func[14] = tk_great;
-	lex->token_func[15] = tk_str;
+	lex->token_func[0] = tk_and_if;
+	lex->token_func[1] = tk_or_if;
+	lex->token_func[2] = tk_dless;
+	lex->token_func[3] = tk_dgreat;
+	lex->token_func[4] = tk_lessand;
+	lex->token_func[5] = tk_greatand;
+	lex->token_func[6] = tk_lessgreat;
+	lex->token_func[7] = tk_clobber;
+	lex->token_func[8] = tk_wspc;
+	lex->token_func[9] = tk_pipe;
+	lex->token_func[10] = tk_scol;
+	lex->token_func[11] = tk_and;
+	lex->token_func[12] = tk_less;
+	lex->token_func[13] = tk_great;
+	lex->token_func[14] = tk_str;
 }
 
 void			init_lexer(t_lex *lex, char *str)

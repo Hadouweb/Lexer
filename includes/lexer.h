@@ -18,7 +18,6 @@
 
 enum	e_tk
 {
-	TK_OPT,
 	TK_AND_IF,		// &&
 	TK_OR_IF,		// ||
 	TK_DLESS,		// <<
@@ -35,8 +34,7 @@ enum	e_tk
 	TK_GREAT,		// >
 	TK_STR,
 	TK_COUNT,
-	TK_BEG,
-	TK_END,
+	TK_FILE,
 };
 
 enum	e_rule
@@ -84,10 +82,11 @@ typedef struct		s_lex
 	t_status		status[TK_COUNT];
 	unsigned int	state[TK_COUNT];
 	t_list			*list_token;
+	t_list			*list_token_separate;
 	enum e_sts		(*token_func[TK_COUNT])(char, unsigned int*);
 }					t_lex;
 
-#define RULE_COUNT 1
+#define RULE_COUNT 3
 
 typedef struct 		s_parse
 {
@@ -95,8 +94,8 @@ typedef struct 		s_parse
 	t_list			*stack;
 	t_tree			*root;
 	t_token			*last_process;
-	t_token			*(*rule_func[RULE_COUNT])(struct s_parse *parse,
-						t_link **node, t_token *prev_tree);
+	t_tree			*(*rule_func[RULE_COUNT])(struct s_parse *parse,
+						t_link **node, t_tree *prev_tree);
 }					t_parse;
 
 void				clean_list_token(t_list **list);
@@ -137,7 +136,7 @@ enum e_sts			tk_great(char c, unsigned int *state);
 
 t_tree				*get_right_node(t_tree *root);
 void				update_tree(void *node);
-void				merge_tree(t_token *prev_tree, t_token **cur_tree);
+void				merge_tree(t_tree *prev_tree, t_tree **cur_tree);
 
 t_token				*make_token(char *str, enum e_tk tk);
 void				init_sts(t_status *status);
@@ -159,9 +158,9 @@ void				filter_lexer_list(t_list **list, t_list **list_tk_sep);
 void				init_rule_func(t_parse *parse);
 void				init_parser(t_parse *parse);
 
-t_token				*rule_great(t_parse *parse, t_link **node, t_token *prev_tree);
-t_token				*rule_less(t_parse *parse, t_link **node, t_token *prev_tree);
-t_token				*rule_pipe(t_parse *parse, t_link **node, t_token *prev_tree);
+t_tree				*rule_great(t_parse *parse, t_link **node, t_tree *prev_tree);
+t_tree				*rule_less(t_parse *parse, t_link **node, t_tree *prev_tree);
+t_tree				*rule_pipe(t_parse *parse, t_link **node, t_tree *prev_tree);
 
 char 				*get_concat_str_stack(t_parse *parse, t_token **root);
 void				add_instr(t_parse *parse, t_token **root);

@@ -3,8 +3,8 @@
 void			init_rule_func(t_parse *parse)
 {
 	parse->rule_func[0] = rule_great;
-	//parse->rule_func[1] = rule_less;
-	//parse->rule_func[2] = rule_pipe;
+	parse->rule_func[1] = rule_less;
+	parse->rule_func[2] = rule_pipe;
 }
 
 void			init_parser(t_parse *parse)

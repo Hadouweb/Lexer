@@ -42,12 +42,14 @@ void	debug_print_state(unsigned int *state)
 void	debug_print_list_sep(t_list *list)
 {
 	t_link	*l;
+	t_list	*sub_list;
 
 	l = list->head;
 	while (l)
 	{
+		sub_list = PTR_NODE(l, t_list, link);
 		ft_putstr("------------------- CMD -------------------\n");
-		ft_list_print(((t_list*)l)->head, debug_print_token_list);
+		ft_list_print(sub_list->head, debug_print_token_list);
 		l = l->next;
 	}
 }
@@ -99,16 +101,15 @@ void	debug_all_sub_tree(t_list *list)
 void			debug_print_list_tree(t_list *list)
 {
 	t_link	*l;
-	t_token	*token;
+	t_tree	*tree;
 
-	token = PTR_NODE(list->head, t_token, link);
-	l = &token->link;
+	l = list->head;
 	while (l)
 	{
 		ft_putstr("------------------- AST -------------------\n");
-		token = PTR_NODE(l, t_token, link);
+		tree = PTR_NODE(l, t_tree, link);
 		//printf("%s\n", token->str);
-		ft_tree_preorder(&token->tree, debug_print_token_tree);
+		ft_tree_preorder(tree, debug_print_token_tree);
 		l = l->next;
 	}
 }
@@ -118,7 +119,6 @@ const char* debug_get_token_name(enum e_tk tk)
 	switch (tk)
 	{
 		case TK_STR: return "TK_STR";
-		case TK_OPT: return "TK_OPT";
 		case TK_WSPC: return "TK_WSPC";
 		case TK_AND_IF: return "TK_AND_IF";
 		case TK_OR_IF: return "TK_OR_IF";
@@ -134,7 +134,6 @@ const char* debug_get_token_name(enum e_tk tk)
 		case TK_LESS: return "TK_LESS";
 		case TK_GREAT: return "TK_GREAT";
 		case TK_COUNT: return "TK_COUNT";
-		case TK_BEG: return "TK_BEG";
-		case TK_END: return "TK_END";
+		case TK_FILE: return "TK_FILE";
 	}
 }

@@ -12,7 +12,7 @@ t_list	*get_sub_list(t_link **l)
 		token = PTR_NODE(*l, t_token, link);
 		if (token->tk == TK_SCOL || token->tk == TK_AND_IF)
 			return (list);
-		if (token->tk != TK_WSPC && token->tk != TK_END)
+		if (token->tk != TK_WSPC)
 		{
 			new_token = make_token(token->str, token->tk);
 			ft_list_push_back(&list, &new_token->link);
@@ -31,6 +31,8 @@ void		filter_lexer_list(t_list **list, t_list **list_tk_sep)
 	while (l)
 	{
 		sub_list = get_sub_list(&l);
+		//printf("----\n");
+		//ft_list_print(sub_list->head, debug_print_token_list);
 		if (sub_list)
 			ft_list_push_back(list_tk_sep, &sub_list->link);
 		if (l)
