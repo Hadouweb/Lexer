@@ -165,6 +165,6 @@ void	parser(t_parse *parse, t_list *list)
 	if (list)
 	{
 		for_each_cmd(parse, list);
-		for_each_tree(parse->list_tree);
+		//for_each_tree(parse->list_tree);
 	}
 }

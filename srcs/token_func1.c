@@ -118,7 +118,32 @@ enum e_sts		tk_dgreat(char c, unsigned int *state)
 
 enum e_sts		tk_lessand(char c, unsigned int *state)
 {
-	return (tk_generic_2(c, state, "<&"));
+	if (*state == 0)
+	{
+		if ((c == '<' || ft_isdigit(c)) && (*state = 1))
+			return (STS_HUNGRY);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
+	else if (*state == 1)
+	{
+		if (ft_isdigit(c) && (*state = 1))
+			return (STS_HUNGRY);
+		if (c == '<' && (*state = 2))
+			return (STS_HUNGRY);
+		if (c == '&' && (*state = 2))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
+	else if (*state == 2)
+	{
+		if (c == '&' && (*state = 2))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
+	return (STS_REJECT);
 }
 
 enum e_sts		tk_greatand(char c, unsigned int *state)
@@ -148,7 +173,7 @@ enum e_sts		tk_greatand(char c, unsigned int *state)
 		else if ((*state = 0))
 			return (STS_REJECT);
 	}
-	return (tk_generic_2(c, state, ">&"));
+	return (STS_REJECT);
 }
 
 enum e_sts		tk_lessgreat(char c, unsigned int *state)

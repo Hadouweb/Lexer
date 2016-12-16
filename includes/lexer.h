@@ -18,20 +18,20 @@
 
 enum	e_tk
 {
-	TK_AND_IF,		// &&
+	TK_AND_IF,		// && ok
 	TK_OR_IF,		// ||
-	TK_DLESS,		// <<
-	TK_DGREAT,		// >>
-	TK_LESSAND,		// <&
-	TK_GREATAND,	// >&
+	TK_DLESS,		// << ok
+	TK_DGREAT,		// >> ok
+	TK_LESSAND,		// <& ok
+	TK_GREATAND,	// >& ok
 	TK_LESSGREAT,	// <>
 	TK_CLOBBER,		// >|
-	TK_WSPC,		// ' '
-	TK_PIPE,		// |
-	TK_SCOL,		// ;
-	TK_AND,			// &
-	TK_LESS,		// <
-	TK_GREAT,		// >
+	TK_WSPC,		// ' ' ok
+	TK_PIPE,		// | ok
+	TK_SCOL,		// ; ok
+	TK_AND,			// & ok
+	TK_LESS,		// < ok
+	TK_GREAT,		// > ok
 	TK_STR,
 	TK_COUNT,
 	TK_FILE,
@@ -88,7 +88,7 @@ typedef struct		s_lex
 	enum e_sts		(*token_func[TK_COUNT])(char, unsigned int*);
 }					t_lex;
 
-#define RULE_COUNT 6
+#define RULE_COUNT 7
 
 typedef struct 		s_parse
 {
@@ -166,6 +166,7 @@ t_tree				*rule_less(t_parse *parse, t_link **node, t_tree *prev_tree);
 t_tree				*rule_pipe(t_parse *parse, t_link **node, t_tree *prev_tree);
 t_tree				*rule_dless(t_parse *parse, t_link **node, t_tree *prev_tree);
 t_tree				*rule_greatand(t_parse *parse, t_link **node, t_tree *prev_tree);
+t_tree				*rule_lessand(t_parse *parse, t_link **node, t_tree *prev_tree);
 
 char 				*get_concat_str_stack(t_parse *parse, t_token **root);
 void				add_instr(t_parse *parse, t_token **root);
