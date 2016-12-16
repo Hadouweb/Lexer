@@ -45,7 +45,6 @@ void	add_instr(t_parse *parse, t_token **root)
 	if (parse->stack && parse->stack->head)
 	{
 		process = get_process(parse, root);
-		printf("-- %s\n", process->str);
 		l = parse->stack->head;
 		cur_tree = &process->tree;
 		while (l)
@@ -121,6 +120,7 @@ void	for_each_cmd(t_parse *parse, t_list *list)
 	l = list->head;
 	while (l)
 	{
+		parse->last_process = NULL;
 		sub_list = PTR_NODE(l, t_list, link);
 		root = make_tree(parse, sub_list);
 		ft_list_push_back(&parse->list_tree, &root->link);
@@ -131,11 +131,40 @@ void	for_each_cmd(t_parse *parse, t_list *list)
 	//ft_tree_preorder(root, debug_print_token_node);
 }
 
+void	update_tk_context(void *node)
+{
+	t_token		*token;
+	t_token		*token_parent;
+
+	token = PTR_NODE(node, t_token, tree);
+	if (token->tree.parent)
+	{
+		token_parent = PTR_NODE(token->tree.parent, t_token, tree);
+		if (token_parent->tk == TK_GREATAND)
+			token->tk = TK_FD;
+	}
+}
+
+void	for_each_tree(t_list *list)
+{
+	t_link	*l;
+	t_tree	*root;
+
+	l = list->head;
+	while (l)
+	{
+		root = PTR_NODE(l, t_tree, link);
+		ft_tree_postorder(root, update_tk_context);
+		l = l->next;
+	}
+}
+
 void	parser(t_parse *parse, t_list *list)
 {
 	init_parser(parse);
 	if (list)
 	{
 		for_each_cmd(parse, list);
+		for_each_tree(parse->list_tree);
 	}
 }

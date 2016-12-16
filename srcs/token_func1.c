@@ -123,6 +123,31 @@ enum e_sts		tk_lessand(char c, unsigned int *state)
 
 enum e_sts		tk_greatand(char c, unsigned int *state)
 {
+	if (*state == 0)
+	{
+		if ((c == '>' || ft_isdigit(c)) && (*state = 1))
+			return (STS_HUNGRY);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
+	else if (*state == 1)
+	{
+		if (ft_isdigit(c) && (*state = 1))
+			return (STS_HUNGRY);
+		if (c == '>' && (*state = 2))
+			return (STS_HUNGRY);
+		if (c == '&' && (*state = 2))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
+	else if (*state == 2)
+	{
+		if (c == '&' && (*state = 2))
+			return (STS_ACCEPT);
+		else if ((*state = 0))
+			return (STS_REJECT);
+	}
 	return (tk_generic_2(c, state, ">&"));
 }
 
