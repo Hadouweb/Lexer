@@ -10,6 +10,9 @@ void			init_rule_func(t_parse *parse)
 	parse->rule_func[5] = rule_greatand;
 	parse->rule_func[6] = rule_lessand;
 	parse->rule_func[7] = rule_lessgreat;
+	parse->rule_func[8] = rule_and_if;
+	parse->rule_func[9] = rule_or_if;
+	parse->rule_func[10] = rule_clobber;
 }
 
 void			init_parser(t_parse *parse)

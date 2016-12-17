@@ -137,5 +137,8 @@ const char* debug_get_token_name(enum e_tk tk)
 		case TK_FILE: return "TK_FILE";
 		case TK_HEREDOC: return "TK_HEREDOC";
 		case TK_FD: return "TK_FD";
+		case TK_CMD: return "TK_CMD";
+		case TK_QUOTE: return "TK_QUOTE";
+		case TK_DQUOTE: return "TK_DQUOTE";
 	}
 }
