@@ -16,6 +16,9 @@
 # include <stdio.h>
 # include "libft.h"
 
+# define QUOTE 39
+# define DQUOTE 34
+
 enum	e_tk
 {
 	TK_AND_IF,		// && ok
@@ -38,8 +41,6 @@ enum	e_tk
 	TK_HEREDOC,
 	TK_FD,
 	TK_CMD,
-	TK_QUOTE,
-	TK_DQUOTE,
 };
 
 enum	e_rule
@@ -82,13 +83,14 @@ typedef struct		s_status
 
 typedef struct		s_lex
 {
+	unsigned int	quoting;
 	char			*nbeg;
 	char			*nend;
 	t_status		status[TK_COUNT];
 	unsigned int	state[TK_COUNT];
 	t_list			*list_token;
 	t_list			*list_token_separate;
-	enum e_sts		(*token_func[TK_COUNT])(char, unsigned int*);
+	enum e_sts		(*token_func[TK_COUNT])(char, unsigned int*, unsigned int*);
 }					t_lex;
 
 #define RULE_COUNT 11
@@ -122,22 +124,24 @@ void				debug_print_list_tree(t_list *l);
 enum e_sts			tk_generic_1(char c, unsigned int *state, char *str);
 enum e_sts			tk_generic_2(char c, unsigned int *state, char *str);
 
-enum e_sts			tk_str(char c, unsigned int *state);
-enum e_sts			tk_opt(char c, unsigned int *state);
-enum e_sts			tk_wspc(char c, unsigned int *state);
-enum e_sts			tk_pipe(char c, unsigned int *state);
-enum e_sts			tk_scol(char c, unsigned int *state);
-enum e_sts			tk_and(char c, unsigned int *state);
-enum e_sts			tk_and_if(char c, unsigned int *state);
-enum e_sts			tk_or_if(char c, unsigned int *state);
-enum e_sts			tk_dless(char c, unsigned int *state);
-enum e_sts			tk_dgreat(char c, unsigned int *state);
-enum e_sts			tk_lessand(char c, unsigned int *state);
-enum e_sts			tk_greatand(char c, unsigned int *state);
-enum e_sts			tk_lessgreat(char c, unsigned int *state);
-enum e_sts			tk_clobber(char c, unsigned int *state);
-enum e_sts			tk_less(char c, unsigned int *state);
-enum e_sts			tk_great(char c, unsigned int *state);
+enum e_sts			tk_str(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_opt(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_wspc(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_pipe(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_scol(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_and(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_and_if(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_or_if(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_dless(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_dgreat(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_lessand(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_greatand(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_lessgreat(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_clobber(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_less(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_great(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_quote(char c, unsigned int *state, unsigned int *q);
+enum e_sts			tk_dquote(char c, unsigned int *state, unsigned int *q);
 
 t_tree				*get_right_node(t_tree *root);
 void				update_tree(void *node);

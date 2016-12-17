@@ -10,7 +10,8 @@ int				find_token_substr(t_lex *lex)
 	while (i < TK_COUNT)
 	{
 		if (lex->status[i].prev != STS_REJECT)
-			lex->status[i].curr = lex->token_func[i](*lex->nend, &lex->state[i]);
+			lex->status[i].curr =
+			lex->token_func[i](*lex->nend, &lex->state[i], &lex->quoting);
 		if (lex->status[i].curr != STS_REJECT)
 			find = 1;
 		i++;

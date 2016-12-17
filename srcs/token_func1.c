@@ -18,23 +18,39 @@ enum e_sts		tk_generic_2(char c, unsigned int *state, char *str)
 	return (STS_REJECT);
 }
 
-enum e_sts		tk_str(char c, unsigned int *state)
+enum e_sts		tk_str(char c, unsigned int *state, unsigned int *q)
 {
-	if (*state)
+	if (*q)
 		;
-	if (ft_isprint(c) &&
-		c != '&' &&
-		c != '|' &&
-		c != '<' &&
-		c != '>' &&
-		c != ' ' &&
-		c != ';')
-		return (STS_ACCEPT);
+	if (*state == 0)
+	{
+		if (*q == 0 && c == '\'')
+			*q = QUOTE;
+		else if (*q != 0 && c == '\'')
+			*q = 0;
+		if (*q == 0 && c == '"')
+			*q = DQUOTE;
+		else if (*q != 0 && c == '"')
+			*q = 0;
+		if (*q != 0 && ft_isprint(c))
+			return (STS_ACCEPT);
+		if (ft_isprint(c) &&
+			c != '&' &&
+			c != '|' &&
+			c != '<' &&
+			c != '>' &&
+			c != ' ' &&
+			c != ';')
+			return (STS_ACCEPT);
+	}
+	*state = 0;
 	return (STS_REJECT);
 }
 
-enum e_sts		tk_opt(char c, unsigned int *state)
+enum e_sts		tk_opt(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	if (*state == 0)
 	{
 		if (c == '-' && (*state = 1))
@@ -52,8 +68,10 @@ enum e_sts		tk_opt(char c, unsigned int *state)
 	return (STS_REJECT);
 }
 
-enum e_sts		tk_wspc(char c, unsigned int *state)
+enum e_sts		tk_wspc(char c, unsigned int *state, unsigned int *q)
 {
+	if (*q != 0)
+		return (STS_REJECT);
 	if (*state == 0)
 	{
 		if ((c == ' ' || c == '\t') && (*state = 1))
@@ -71,53 +89,73 @@ enum e_sts		tk_wspc(char c, unsigned int *state)
 	return (STS_REJECT);
 }
 
-enum e_sts		tk_pipe(char c, unsigned int *state)
+enum e_sts		tk_pipe(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_1(c, state, "|"));
 }
 
-enum e_sts		tk_scol(char c, unsigned int *state)
+enum e_sts		tk_scol(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_1(c, state, ";"));
 }
 
-enum e_sts		tk_and(char c, unsigned int *state)
+enum e_sts		tk_and(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_1(c, state, "&"));
 }
 
-enum e_sts		tk_less(char c, unsigned int *state)
+enum e_sts		tk_less(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_1(c, state, "<"));
 }
 
-enum e_sts		tk_great(char c, unsigned int *state)
+enum e_sts		tk_great(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_1(c, state, ">"));
 }
 
-enum e_sts		tk_and_if(char c, unsigned int *state)
+enum e_sts		tk_and_if(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_2(c, state, "&&"));
 }
 
-enum e_sts		tk_or_if(char c, unsigned int *state)
+enum e_sts		tk_or_if(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_2(c, state, "||"));
 }
 
-enum e_sts		tk_dless(char c, unsigned int *state)
+enum e_sts		tk_dless(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_2(c, state, "<<"));
 }
 
-enum e_sts		tk_dgreat(char c, unsigned int *state)
+enum e_sts		tk_dgreat(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_2(c, state, ">>"));
 }
 
-enum e_sts		tk_lessand(char c, unsigned int *state)
+enum e_sts		tk_lessand(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	if (*state == 0)
 	{
 		if ((c == '<' || ft_isdigit(c)) && (*state = 1))
@@ -146,8 +184,10 @@ enum e_sts		tk_lessand(char c, unsigned int *state)
 	return (STS_REJECT);
 }
 
-enum e_sts		tk_greatand(char c, unsigned int *state)
+enum e_sts		tk_greatand(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	if (*state == 0)
 	{
 		if ((c == '>' || ft_isdigit(c)) && (*state = 1))
@@ -176,8 +216,10 @@ enum e_sts		tk_greatand(char c, unsigned int *state)
 	return (STS_REJECT);
 }
 
-enum e_sts		tk_lessgreat(char c, unsigned int *state)
+enum e_sts		tk_lessgreat(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	if (*state == 0)
 	{
 		if ((c == '<' || ft_isdigit(c)) && (*state = 1))
@@ -206,7 +248,9 @@ enum e_sts		tk_lessgreat(char c, unsigned int *state)
 	return (STS_REJECT);
 }
 
-enum e_sts		tk_clobber(char c, unsigned int *state)
+enum e_sts		tk_clobber(char c, unsigned int *state, unsigned int *q)
 {
+	if (q)
+		;
 	return (tk_generic_2(c, state, ">|"));
 }

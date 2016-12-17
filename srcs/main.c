@@ -12,6 +12,7 @@ int 			main(int ac, char **av)
 	t_parse			parse;
 	t_lex			lex;
 
+
 	if (ac > 1)
 	{
 		lexer(&lex, av[1]);
