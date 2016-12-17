@@ -32,7 +32,7 @@ enum	e_tk
 	TK_AND,			// & ok
 	TK_LESS,		// < ok
 	TK_GREAT,		// > ok
-	TK_STR,
+	TK_STR,			// Default ok
 	TK_COUNT,
 	TK_FILE,
 	TK_HEREDOC,
@@ -88,7 +88,7 @@ typedef struct		s_lex
 	enum e_sts		(*token_func[TK_COUNT])(char, unsigned int*);
 }					t_lex;
 
-#define RULE_COUNT 7
+#define RULE_COUNT 8
 
 typedef struct 		s_parse
 {
@@ -167,6 +167,7 @@ t_tree				*rule_pipe(t_parse *parse, t_link **node, t_tree *prev_tree);
 t_tree				*rule_dless(t_parse *parse, t_link **node, t_tree *prev_tree);
 t_tree				*rule_greatand(t_parse *parse, t_link **node, t_tree *prev_tree);
 t_tree				*rule_lessand(t_parse *parse, t_link **node, t_tree *prev_tree);
+t_tree				*rule_lessgreat(t_parse *parse, t_link **node, t_tree *prev_tree);
 
 char 				*get_concat_str_stack(t_parse *parse, t_token **root);
 void				add_instr(t_parse *parse, t_token **root);

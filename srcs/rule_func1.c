@@ -186,3 +186,29 @@ t_tree		*rule_pipe(t_parse *parse, t_link **node, t_tree *prev_tree)
 	}
 	return (root);
 }
+
+t_tree		*rule_lessgreat(t_parse *parse, t_link **node, t_tree *prev_tree)
+{
+	t_tree			*root;
+	t_token			*token;
+	t_token			*next_token;
+
+	root = NULL;
+	token = PTR_NODE(*node, t_token, link);
+	next_token = PTR_NODE(token->link.next, t_token, link);
+	if (token->tk == TK_LESSGREAT)
+	{
+		if (parse)
+			;
+		root = &token->tree;
+		if (next_token != NULL)
+		{
+			next_token->tk = TK_FILE;
+			ft_tree_add(root, TREE_RIGHT, &next_token->tree);
+		}
+		if (prev_tree)
+			merge_tree(prev_tree, &root);
+		*node = (*node)->next;
+	}
+	return (root);
+}
